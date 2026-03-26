@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Timber — Plataforma de operaciones para aserraderos</title>
-  <meta name="description" content="Timber digitaliza la operación de tu aserradero. Tus operadores reportan por WhatsApp, vos controlás todo desde el dashboard.">
-  <meta property="og:title" content="Timber — Plataforma de operaciones para aserraderos">
-  <meta property="og:description" content="Tus operadores reportan por WhatsApp. Vos controlás todo desde el dashboard.">
+  <title>Timberly — AI agents for sawmill operations</title>
+  <meta name="description" content="From logs to insights. AI agents that run your sawmill operations — so you can focus on what matters.">
+  <meta property="og:title" content="Timberly — AI agents for sawmill operations">
+  <meta property="og:description" content="From logs to insights. AI agents that run your sawmill operations — so you can focus on what matters.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://timber.to">
   <link rel="canonical" href="https://timber.to">
@@ -69,10 +69,15 @@
       gap: 8px;
     }
     .logo svg { width: 24px; height: 24px; color: var(--accent); }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 32px;
+      gap: 28px;
     }
     .nav-links a {
       color: var(--text-muted);
@@ -82,6 +87,29 @@
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--text); }
+    .lang-switcher {
+      display: flex;
+      gap: 4px;
+    }
+    .lang-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+    .lang-btn:hover { color: var(--text); border-color: var(--text-muted); }
+    .lang-btn.active {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-color: rgba(34, 197, 148, 0.3);
+    }
     .nav-cta {
       background: var(--accent);
       color: var(--bg);
@@ -118,10 +146,18 @@
       letter-spacing: -0.025em;
     }
     .hero h1 .highlight { color: var(--accent); }
-    .hero p {
-      font-size: 1.05rem;
+    .hero .slogan {
+      font-size: 1.15rem;
       color: var(--text-muted);
-      max-width: 560px;
+      max-width: 580px;
+      margin: 0 auto 12px;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+    .hero .sub {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 520px;
       margin: 0 auto 36px;
       line-height: 1.7;
     }
@@ -160,6 +196,7 @@
       transition: background 0.2s;
     }
     .btn-secondary:hover { background: var(--bg-muted); }
+    .arrow-icon { width: 16px; height: 16px; }
 
     /* Sections */
     section { padding: 80px 0; }
@@ -211,16 +248,8 @@
       margin-bottom: 14px;
       border: 1px solid rgba(34, 197, 148, 0.2);
     }
-    .step h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-    .step p {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      line-height: 1.6;
-    }
+    .step h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
+    .step p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
 
     /* Features */
     .feature-grid {
@@ -235,27 +264,16 @@
       padding: 24px;
     }
     .feature-icon {
-      width: 40px;
-      height: 40px;
+      width: 40px; height: 40px;
       border-radius: var(--radius);
       background: var(--bg-secondary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       margin-bottom: 14px;
       color: var(--accent);
     }
     .feature-icon svg { width: 20px; height: 20px; }
-    .feature h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-    .feature p {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      line-height: 1.6;
-    }
+    .feature h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
+    .feature p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
 
     /* Stats */
     .proof { text-align: center; }
@@ -273,32 +291,13 @@
       padding: 28px 36px;
       min-width: 160px;
     }
-    .stat-value {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--accent);
-    }
-    .stat-label {
-      color: var(--text-muted);
-      font-size: 0.8rem;
-      font-weight: 500;
-      margin-top: 4px;
-    }
+    .stat-value { font-size: 2rem; font-weight: 800; color: var(--accent); }
+    .stat-label { color: var(--text-muted); font-size: 0.8rem; font-weight: 500; margin-top: 4px; }
 
     /* CTA */
-    .final-cta {
-      text-align: center;
-      padding: 96px 0;
-    }
-    .final-cta h2 {
-      font-size: 2rem;
-      font-weight: 800;
-    }
-    .final-cta p {
-      color: var(--text-muted);
-      font-size: 1rem;
-      margin-bottom: 32px;
-    }
+    .final-cta { text-align: center; padding: 96px 0; }
+    .final-cta h2 { font-size: 2rem; font-weight: 800; }
+    .final-cta p { color: var(--text-muted); font-size: 1rem; margin-bottom: 32px; }
 
     /* Footer */
     footer {
@@ -308,11 +307,6 @@
       color: var(--text-muted);
       font-size: 0.8rem;
     }
-    footer a {
-      color: var(--text-muted);
-      text-decoration: none;
-    }
-    footer a:hover { color: var(--text); }
 
     @media (max-width: 768px) {
       .hero { padding: 60px 0 50px; }
@@ -334,103 +328,111 @@
           <path d="M2 17l10 5 10-5"/>
           <path d="M2 12l10 5 10-5"/>
         </svg>
-        Timber
+        Timberly
       </a>
-      <div class="nav-links">
-        <a href="#como-funciona">Cómo funciona</a>
-        <a href="#funcionalidades">Funcionalidades</a>
-        <a href="https://app.timber.to" class="nav-cta">Ingresar</a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="#how" data-i18n="nav_how"></a>
+          <a href="#features" data-i18n="nav_features"></a>
+        </div>
+        <div class="lang-switcher">
+          <button class="lang-btn" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="es">ES</button>
+          <button class="lang-btn" data-lang="pt">PT</button>
+        </div>
+        <a href="https://app.timber.to" class="nav-cta" data-i18n="nav_cta"></a>
       </div>
     </div>
   </nav>
 
   <section class="hero">
     <div class="container">
-      <span class="hero-badge">Plataforma para aserraderos</span>
-      <h1>Tu aserradero reporta por <span class="highlight">WhatsApp</span>.<br>Vos controlás todo desde el <span class="highlight">dashboard</span>.</h1>
-      <p>Timber digitaliza la operación de tu aserradero sin cambiar cómo trabajan tus operadores. Ellos mandan mensajes de voz, vos ves datos en tiempo real.</p>
+      <span class="hero-badge" data-i18n="hero_badge"></span>
+      <h1 data-i18n-html="hero_title"></h1>
+      <p class="slogan" data-i18n="hero_slogan"></p>
+      <p class="sub" data-i18n="hero_sub"></p>
       <div class="hero-actions">
         <a href="https://app.timber.to" class="btn-primary">
-          Empezar gratis
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          <span data-i18n="hero_cta"></span>
+          <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
-        <a href="#como-funciona" class="btn-secondary">Ver cómo funciona</a>
+        <a href="#how" class="btn-secondary" data-i18n="hero_how"></a>
       </div>
     </div>
   </section>
 
-  <section id="como-funciona" class="section-border">
+  <section id="how" class="section-border">
     <div class="container">
-      <p class="section-label">Cómo funciona</p>
-      <h2>De un audio de WhatsApp a datos en tu dashboard</h2>
-      <p class="subtitle">Sin apps nuevas, sin capacitación, sin cambiar cómo trabajan tus operadores.</p>
+      <p class="section-label" data-i18n="how_label"></p>
+      <h2 data-i18n="how_title"></h2>
+      <p class="subtitle" data-i18n="how_subtitle"></p>
       <div class="steps">
         <div class="step">
           <div class="step-number">1</div>
-          <h3>El operador envía un mensaje</h3>
-          <p>Un audio, texto o foto por WhatsApp. Habla como habla siempre. No necesita aprender nada nuevo.</p>
+          <h3 data-i18n="step1_title"></h3>
+          <p data-i18n="step1_text"></p>
         </div>
         <div class="step">
           <div class="step-number">2</div>
-          <h3>La IA extrae los datos</h3>
-          <p>Timber transcribe, interpreta y estructura la información. Ingreso de madera, producción, despacho, turnos.</p>
+          <h3 data-i18n="step2_title"></h3>
+          <p data-i18n="step2_text"></p>
         </div>
         <div class="step">
           <div class="step-number">3</div>
-          <h3>Vos ves todo en tiempo real</h3>
-          <p>Stock, rendimiento, estado de pedidos, costos. Todo en el dashboard, sin planillas ni doble carga.</p>
+          <h3 data-i18n="step3_title"></h3>
+          <p data-i18n="step3_text"></p>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="funcionalidades" class="section-border">
+  <section id="features" class="section-border">
     <div class="container">
-      <p class="section-label">Funcionalidades</p>
-      <h2>Todo lo que necesitás para controlar la operación</h2>
-      <p class="subtitle">Cada módulo se alimenta de los datos que tus operadores ya reportan.</p>
+      <p class="section-label" data-i18n="feat_label"></p>
+      <h2 data-i18n="feat_title"></h2>
+      <p class="subtitle" data-i18n="feat_subtitle"></p>
       <div class="feature-grid">
         <div class="feature">
           <div class="feature-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
           </div>
-          <h3>Stock en tiempo real</h3>
-          <p>Inventario por especie, dimensión y etapa de proceso. Sabés exactamente qué tenés y dónde está.</p>
+          <h3 data-i18n="f1_title"></h3>
+          <p data-i18n="f1_text"></p>
         </div>
         <div class="feature">
           <div class="feature-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/></svg>
           </div>
-          <h3>Rendimiento y costos</h3>
-          <p>Rendimiento por etapa, operador y período. Costo por pie calculado automáticamente.</p>
+          <h3 data-i18n="f2_title"></h3>
+          <p data-i18n="f2_text"></p>
         </div>
         <div class="feature">
           <div class="feature-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></svg>
           </div>
-          <h3>Pedidos y despacho</h3>
-          <p>Creá pedidos, seguí el avance y despachá cuando esté listo. Sin perder de vista ningún compromiso.</p>
+          <h3 data-i18n="f3_title"></h3>
+          <p data-i18n="f3_text"></p>
         </div>
         <div class="feature">
           <div class="feature-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </div>
-          <h3>WhatsApp nativo</h3>
-          <p>Tus operadores siguen usando WhatsApp. Audios, texto, fotos. Timber entiende todo y lo convierte en datos.</p>
+          <h3 data-i18n="f4_title"></h3>
+          <p data-i18n="f4_text"></p>
         </div>
         <div class="feature">
           <div class="feature-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
           </div>
-          <h3>Asesor inteligente</h3>
-          <p>Preguntale al sistema qué priorizar hoy, si un pedido está en riesgo, o cómo rindió un operador.</p>
+          <h3 data-i18n="f5_title"></h3>
+          <p data-i18n="f5_text"></p>
         </div>
         <div class="feature">
           <div class="feature-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
           </div>
-          <h3>Trazabilidad completa</h3>
-          <p>Desde el rollizo hasta el despacho. Cada movimiento queda registrado con operador, hora y ubicación.</p>
+          <h3 data-i18n="f6_title"></h3>
+          <p data-i18n="f6_text"></p>
         </div>
       </div>
     </div>
@@ -438,21 +440,21 @@
 
   <section class="proof section-border">
     <div class="container">
-      <p class="section-label">En producción</p>
-      <h2>Diseñado con aserraderos reales</h2>
-      <p class="subtitle" style="margin: 0 auto 0;">Construido trabajando codo a codo con operadores y supervisores de aserraderos en Misiones, Argentina.</p>
+      <p class="section-label" data-i18n="proof_label"></p>
+      <h2 data-i18n="proof_title"></h2>
+      <p class="subtitle" style="margin:0 auto 0" data-i18n="proof_subtitle"></p>
       <div class="stats">
         <div class="stat">
           <div class="stat-value">6</div>
-          <div class="stat-label">Etapas de proceso</div>
+          <div class="stat-label" data-i18n="stat1"></div>
         </div>
         <div class="stat">
           <div class="stat-value">12</div>
-          <div class="stat-label">Tipos de evento</div>
+          <div class="stat-label" data-i18n="stat2"></div>
         </div>
         <div class="stat">
           <div class="stat-value">3</div>
-          <div class="stat-label">Idiomas</div>
+          <div class="stat-label" data-i18n="stat3"></div>
         </div>
       </div>
     </div>
@@ -460,20 +462,194 @@
 
   <section class="final-cta section-border">
     <div class="container">
-      <h2>Empezá a controlar tu aserradero hoy</h2>
-      <p>Configuración en minutos. Tus operadores no necesitan aprender nada nuevo.</p>
+      <h2 data-i18n="cta_title"></h2>
+      <p data-i18n="cta_sub"></p>
       <a href="https://app.timber.to" class="btn-primary">
-        Probar Timber
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        <span data-i18n="cta_btn"></span>
+        <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </a>
     </div>
   </section>
 
   <footer>
     <div class="container">
-      <p>&copy; 2026 Timber. Hecho en Misiones, Argentina.</p>
+      <p data-i18n="footer"></p>
     </div>
   </footer>
+
+  <script>
+    const T = {
+      en: {
+        nav_how: "How it works",
+        nav_features: "Features",
+        nav_cta: "Sign in",
+        hero_badge: "AI-powered sawmill platform",
+        hero_title: 'From <span class="highlight">logs</span> to <span class="highlight">insights</span>.',
+        hero_slogan: "AI agents that run your sawmill operations — so you can focus on what matters.",
+        hero_sub: "Your operators report via WhatsApp voice messages. Timberly turns that into real-time production data, stock tracking, and cost analysis.",
+        hero_cta: "Get started free",
+        hero_how: "See how it works",
+        how_label: "How it works",
+        how_title: "From a WhatsApp voice note to your dashboard",
+        how_subtitle: "No new apps, no training, no change to how your operators work.",
+        step1_title: "Operator sends a message",
+        step1_text: "A voice note, text, or photo via WhatsApp. They talk the way they always do. Nothing new to learn.",
+        step2_title: "AI extracts the data",
+        step2_text: "Timberly transcribes, interprets, and structures the information. Intake, production, dispatch, shifts.",
+        step3_title: "You see everything in real time",
+        step3_text: "Stock, yield, order status, costs. All in your dashboard, no spreadsheets, no double entry.",
+        feat_label: "Features",
+        feat_title: "Everything you need to run the operation",
+        feat_subtitle: "Every module feeds from the data your operators already report.",
+        f1_title: "Real-time inventory",
+        f1_text: "Stock by species, dimension, and process stage. Know exactly what you have and where it is.",
+        f2_title: "Yield and cost analysis",
+        f2_text: "Yield by stage, operator, and period. Cost per board foot calculated automatically from real data.",
+        f3_title: "Orders and dispatch",
+        f3_text: "Create orders, track production progress, and dispatch when ready. Never lose sight of a commitment.",
+        f4_title: "Native WhatsApp",
+        f4_text: "Your operators keep using WhatsApp. Voice, text, photos. Timberly understands it all and turns it into data.",
+        f5_title: "AI advisor",
+        f5_text: "Ask the system what to prioritize today, if an order is at risk, or how an operator performed.",
+        f6_title: "Full traceability",
+        f6_text: "From the log to dispatch. Every movement is recorded with operator, time, and location.",
+        proof_label: "In production",
+        proof_title: "Built with real sawmills",
+        proof_subtitle: "Designed working side by side with operators and supervisors in Misiones, Argentina.",
+        stat1: "Process stages",
+        stat2: "Event types",
+        stat3: "Languages",
+        cta_title: "Start running your sawmill smarter today",
+        cta_sub: "Setup in minutes. Your operators don't need to learn anything new.",
+        cta_btn: "Try Timberly",
+        footer: "&copy; 2026 Timberly. Made in Misiones, Argentina.",
+      },
+      es: {
+        nav_how: "Como funciona",
+        nav_features: "Funcionalidades",
+        nav_cta: "Ingresar",
+        hero_badge: "Plataforma con IA para aserraderos",
+        hero_title: 'De <span class="highlight">rollizos</span> a <span class="highlight">datos</span>.',
+        hero_slogan: "Agentes de IA que operan tu aserradero — para que vos te enfoques en lo que importa.",
+        hero_sub: "Tus operadores reportan por WhatsApp con mensajes de voz. Timberly convierte eso en datos de produccion en tiempo real, stock y analisis de costos.",
+        hero_cta: "Empezar gratis",
+        hero_how: "Ver como funciona",
+        how_label: "Como funciona",
+        how_title: "De un audio de WhatsApp a datos en tu dashboard",
+        how_subtitle: "Sin apps nuevas, sin capacitacion, sin cambiar como trabajan tus operadores.",
+        step1_title: "El operador envia un mensaje",
+        step1_text: "Un audio, texto o foto por WhatsApp. Habla como habla siempre. No necesita aprender nada nuevo.",
+        step2_title: "La IA extrae los datos",
+        step2_text: "Timberly transcribe, interpreta y estructura la informacion. Ingreso de madera, produccion, despacho, turnos.",
+        step3_title: "Vos ves todo en tiempo real",
+        step3_text: "Stock, rendimiento, estado de pedidos, costos. Todo en el dashboard, sin planillas ni doble carga.",
+        feat_label: "Funcionalidades",
+        feat_title: "Todo lo que necesitas para controlar la operacion",
+        feat_subtitle: "Cada modulo se alimenta de los datos que tus operadores ya reportan.",
+        f1_title: "Stock en tiempo real",
+        f1_text: "Inventario por especie, dimension y etapa de proceso. Sabes exactamente que tenes y donde esta.",
+        f2_title: "Rendimiento y costos",
+        f2_text: "Rendimiento por etapa, operador y periodo. Costo por pie calculado automaticamente.",
+        f3_title: "Pedidos y despacho",
+        f3_text: "Crea pedidos, segui el avance y despacha cuando este listo. Sin perder de vista ningun compromiso.",
+        f4_title: "WhatsApp nativo",
+        f4_text: "Tus operadores siguen usando WhatsApp. Audios, texto, fotos. Timberly entiende todo y lo convierte en datos.",
+        f5_title: "Asesor inteligente",
+        f5_text: "Preguntale al sistema que priorizar hoy, si un pedido esta en riesgo, o como rindio un operador.",
+        f6_title: "Trazabilidad completa",
+        f6_text: "Desde el rollizo hasta el despacho. Cada movimiento queda registrado con operador, hora y ubicacion.",
+        proof_label: "En produccion",
+        proof_title: "Disenado con aserraderos reales",
+        proof_subtitle: "Construido trabajando codo a codo con operadores y supervisores de aserraderos en Misiones, Argentina.",
+        stat1: "Etapas de proceso",
+        stat2: "Tipos de evento",
+        stat3: "Idiomas",
+        cta_title: "Empieza a controlar tu aserradero hoy",
+        cta_sub: "Configuracion en minutos. Tus operadores no necesitan aprender nada nuevo.",
+        cta_btn: "Probar Timberly",
+        footer: "&copy; 2026 Timberly. Hecho en Misiones, Argentina.",
+      },
+      pt: {
+        nav_how: "Como funciona",
+        nav_features: "Funcionalidades",
+        nav_cta: "Entrar",
+        hero_badge: "Plataforma com IA para serrarias",
+        hero_title: 'De <span class="highlight">toras</span> a <span class="highlight">dados</span>.',
+        hero_slogan: "Agentes de IA que operam sua serraria — para que voce foque no que importa.",
+        hero_sub: "Seus operadores reportam via WhatsApp com mensagens de voz. Timberly transforma isso em dados de producao em tempo real, estoque e analise de custos.",
+        hero_cta: "Comecar gratis",
+        hero_how: "Veja como funciona",
+        how_label: "Como funciona",
+        how_title: "De um audio no WhatsApp a dados no seu dashboard",
+        how_subtitle: "Sem apps novos, sem treinamento, sem mudar como seus operadores trabalham.",
+        step1_title: "O operador envia uma mensagem",
+        step1_text: "Um audio, texto ou foto pelo WhatsApp. Fala como sempre fala. Nao precisa aprender nada novo.",
+        step2_title: "A IA extrai os dados",
+        step2_text: "Timberly transcreve, interpreta e estrutura a informacao. Entrada de madeira, producao, despacho, turnos.",
+        step3_title: "Voce ve tudo em tempo real",
+        step3_text: "Estoque, rendimento, status de pedidos, custos. Tudo no dashboard, sem planilhas nem dupla entrada.",
+        feat_label: "Funcionalidades",
+        feat_title: "Tudo que voce precisa para controlar a operacao",
+        feat_subtitle: "Cada modulo se alimenta dos dados que seus operadores ja reportam.",
+        f1_title: "Estoque em tempo real",
+        f1_text: "Inventario por especie, dimensao e etapa de processo. Saiba exatamente o que tem e onde esta.",
+        f2_title: "Rendimento e custos",
+        f2_text: "Rendimento por etapa, operador e periodo. Custo por pe calculado automaticamente.",
+        f3_title: "Pedidos e despacho",
+        f3_text: "Crie pedidos, acompanhe o avanco e despache quando estiver pronto. Sem perder de vista nenhum compromisso.",
+        f4_title: "WhatsApp nativo",
+        f4_text: "Seus operadores continuam usando WhatsApp. Audios, texto, fotos. Timberly entende tudo e transforma em dados.",
+        f5_title: "Consultor inteligente",
+        f5_text: "Pergunte ao sistema o que priorizar hoje, se um pedido esta em risco, ou como um operador rendeu.",
+        f6_title: "Rastreabilidade completa",
+        f6_text: "Da tora ao despacho. Cada movimento fica registrado com operador, hora e local.",
+        proof_label: "Em producao",
+        proof_title: "Projetado com serrarias reais",
+        proof_subtitle: "Construido trabalhando lado a lado com operadores e supervisores de serrarias em Misiones, Argentina.",
+        stat1: "Etapas de processo",
+        stat2: "Tipos de evento",
+        stat3: "Idiomas",
+        cta_title: "Comece a controlar sua serraria hoje",
+        cta_sub: "Configuracao em minutos. Seus operadores nao precisam aprender nada novo.",
+        cta_btn: "Experimentar Timberly",
+        footer: "&copy; 2026 Timberly. Feito em Misiones, Argentina.",
+      },
+    };
+
+    function detectLang() {
+      var stored = localStorage.getItem("lang");
+      if (stored && T[stored]) return stored;
+      var nav = (navigator.language || "en").slice(0, 2).toLowerCase();
+      return T[nav] ? nav : "en";
+    }
+
+    function setLang(lang) {
+      localStorage.setItem("lang", lang);
+      document.documentElement.lang = lang;
+      var strings = T[lang];
+
+      document.querySelectorAll("[data-i18n]").forEach(function (el) {
+        el.textContent = strings[el.dataset.i18n] || "";
+      });
+      document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+        el.innerHTML = strings[el.dataset.i18nHtml] || "";
+      });
+
+      document.querySelectorAll(".lang-btn").forEach(function (btn) {
+        btn.classList.toggle("active", btn.dataset.lang === lang);
+      });
+
+      document.title = "Timberly — " + strings.hero_slogan.slice(0, 60);
+      var desc = document.querySelector('meta[name="description"]');
+      if (desc) desc.content = strings.hero_slogan;
+    }
+
+    document.querySelectorAll(".lang-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () { setLang(btn.dataset.lang); });
+    });
+
+    setLang(detectLang());
+  </script>
 
 </body>
 </html>
