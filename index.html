@@ -307,6 +307,18 @@
       color: var(--text-muted);
       font-size: 0.8rem;
     }
+    .footer-links {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    footer a:hover { color: var(--text); }
 
     @media (max-width: 768px) {
       .hero { padding: 60px 0 50px; }
@@ -474,6 +486,10 @@
   <footer>
     <div class="container">
       <p data-i18n="footer"></p>
+      <div class="footer-links">
+        <a href="/privacy-policy.html" data-i18n="footer_privacy"></a>
+        <a href="/terms-of-service.html" data-i18n="footer_terms"></a>
+      </div>
     </div>
   </footer>
 
@@ -523,6 +539,8 @@
         cta_sub: "Setup in minutes. Your operators don't need to learn anything new.",
         cta_btn: "Try Timberly",
         footer: "&copy; 2026 Timberly. Made in Misiones, Argentina.",
+        footer_privacy: "Privacy Policy",
+        footer_terms: "Terms of Service",
       },
       es: {
         nav_how: "Como funciona",
@@ -568,6 +586,8 @@
         cta_sub: "Configuracion en minutos. Tus operadores no necesitan aprender nada nuevo.",
         cta_btn: "Probar Timberly",
         footer: "&copy; 2026 Timberly. Hecho en Misiones, Argentina.",
+        footer_privacy: "Politica de privacidad",
+        footer_terms: "Terminos del servicio",
       },
       pt: {
         nav_how: "Como funciona",
@@ -613,6 +633,8 @@
         cta_sub: "Configuracao em minutos. Seus operadores nao precisam aprender nada novo.",
         cta_btn: "Experimentar Timberly",
         footer: "&copy; 2026 Timberly. Feito em Misiones, Argentina.",
+        footer_privacy: "Politica de privacidade",
+        footer_terms: "Termos de servico",
       },
     };
 
