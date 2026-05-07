@@ -9,6 +9,7 @@
   <meta property="og:description" content="From logs to insights. AI agents that run your sawmill operations — so you can focus on what matters.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://timber.to">
+  <meta property="og:image" content="https://timber.to/images/hero.jpg">
   <link rel="canonical" href="https://timber.to">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +26,7 @@
       --accent: #22c594;
       --accent-dim: rgba(34, 197, 148, 0.12);
       --border: #23253c;
-      --radius: 8px;
+      --radius: 10px;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,14 +40,14 @@
     }
 
     .container {
-      max-width: 1080px;
+      max-width: 1140px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
     /* Nav */
     nav {
-      padding: 16px 0;
+      padding: 14px 0;
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
@@ -68,17 +69,8 @@
       align-items: center;
       gap: 8px;
     }
-    .logo svg { width: 24px; height: 24px; color: var(--accent); }
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-    }
+    .nav-right { display: flex; align-items: center; gap: 24px; }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
     .nav-links a {
       color: var(--text-muted);
       text-decoration: none;
@@ -87,10 +79,7 @@
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--text); }
-    .lang-switcher {
-      display: flex;
-      gap: 4px;
-    }
+    .lang-switcher { display: flex; gap: 4px; }
     .lang-btn {
       background: none;
       border: 1px solid var(--border);
@@ -122,10 +111,15 @@
     }
     .nav-cta:hover { background: #1eb385; }
 
-    /* Hero */
+    /* Hero — split layout */
     .hero {
-      padding: 96px 0 80px;
-      text-align: center;
+      padding: 64px 0 56px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 56px;
+      align-items: center;
     }
     .hero-badge {
       display: inline-block;
@@ -133,38 +127,49 @@
       color: var(--accent);
       padding: 5px 14px;
       border-radius: 20px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
-      margin-bottom: 24px;
+      margin-bottom: 18px;
       border: 1px solid rgba(34, 197, 148, 0.2);
     }
     .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-size: clamp(2rem, 4.4vw, 3rem);
       font-weight: 800;
-      line-height: 1.15;
-      margin-bottom: 20px;
+      line-height: 1.1;
+      margin-bottom: 18px;
       letter-spacing: -0.025em;
     }
     .hero h1 .highlight { color: var(--accent); }
     .hero .slogan {
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       color: var(--text-muted);
-      max-width: 580px;
-      margin: 0 auto 12px;
-      line-height: 1.6;
+      margin-bottom: 22px;
+      line-height: 1.55;
       font-weight: 500;
     }
-    .hero .sub {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      max-width: 520px;
-      margin: 0 auto 36px;
-      line-height: 1.7;
+    .hero-bullets {
+      list-style: none;
+      margin-bottom: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .hero-bullets li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      font-size: 0.92rem;
+    }
+    .hero-bullets svg {
+      width: 16px;
+      height: 16px;
+      color: var(--accent);
+      flex-shrink: 0;
     }
     .hero-actions {
       display: flex;
       gap: 12px;
-      justify-content: center;
       flex-wrap: wrap;
     }
     .btn-primary {
@@ -173,7 +178,7 @@
       gap: 8px;
       background: var(--accent);
       color: var(--bg);
-      padding: 12px 28px;
+      padding: 12px 24px;
       border-radius: var(--radius);
       text-decoration: none;
       font-weight: 600;
@@ -187,7 +192,7 @@
       gap: 8px;
       background: var(--bg-secondary);
       color: var(--text);
-      padding: 12px 28px;
+      padding: 12px 24px;
       border-radius: var(--radius);
       text-decoration: none;
       font-weight: 600;
@@ -198,42 +203,53 @@
     .btn-secondary:hover { background: var(--bg-muted); }
     .arrow-icon { width: 16px; height: 16px; }
 
+    .hero-image {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+      aspect-ratio: 690 / 440;
+      background: var(--bg-card);
+    }
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     /* Sections */
-    section { padding: 80px 0; }
-    .section-border { border-top: 1px solid var(--border); }
+    section { padding: 56px 0; }
     .section-label {
       text-transform: uppercase;
-      font-size: 0.75rem;
-      font-weight: 600;
+      font-size: 0.72rem;
+      font-weight: 700;
       color: var(--accent);
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       margin-bottom: 12px;
     }
     section h2 {
-      font-size: 1.75rem;
+      font-size: 1.85rem;
       font-weight: 700;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       letter-spacing: -0.02em;
     }
     section .subtitle {
       color: var(--text-muted);
       font-size: 0.95rem;
-      max-width: 520px;
-      margin-bottom: 40px;
+      max-width: 540px;
+      margin-bottom: 36px;
     }
 
-    /* Steps */
+    /* Steps — compact, 3 in a row, no card backgrounds */
+    #how { padding-top: 56px; padding-bottom: 56px; }
     .steps {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 28px;
     }
-    .step {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-    }
+    .step { padding: 0; }
     .step-number {
       display: inline-flex;
       align-items: center;
@@ -244,64 +260,88 @@
       background: var(--accent-dim);
       color: var(--accent);
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       margin-bottom: 14px;
-      border: 1px solid rgba(34, 197, 148, 0.2);
+      border: 1px solid rgba(34, 197, 148, 0.25);
     }
-    .step h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
-    .step p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
+    .step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+    .step p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.6; }
 
-    /* Features */
+    /* Features — 3x2 grid with photos */
     .feature-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 18px;
     }
     .feature {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 24px;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
     }
-    .feature-icon {
-      width: 40px; height: 40px;
-      border-radius: var(--radius);
+    .feature:hover {
+      transform: translateY(-2px);
+      border-color: rgba(34, 197, 148, 0.3);
+    }
+    .feature-image {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      display: block;
       background: var(--bg-secondary);
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 14px;
-      color: var(--accent);
     }
-    .feature-icon svg { width: 20px; height: 20px; }
-    .feature h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
-    .feature p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
+    .feature-body { padding: 18px 20px 22px; }
+    .feature h3 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+    .feature p { color: var(--text-muted); font-size: 0.86rem; line-height: 1.55; }
 
-    /* Stats */
-    .proof { text-align: center; }
+    /* Proof — compact stats row, no big photo */
+    .proof { text-align: center; padding: 56px 0 48px; }
+    .proof h2 { margin-bottom: 8px; }
+    .proof .subtitle { margin: 0 auto 32px; }
     .stats {
       display: flex;
       justify-content: center;
-      gap: 56px;
-      margin-top: 40px;
+      gap: 24px;
       flex-wrap: wrap;
     }
     .stat {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 28px 36px;
-      min-width: 160px;
+      padding: 24px 32px;
+      min-width: 170px;
     }
-    .stat-value { font-size: 2rem; font-weight: 800; color: var(--accent); }
-    .stat-label { color: var(--text-muted); font-size: 0.8rem; font-weight: 500; margin-top: 4px; }
+    .stat-value { font-size: 2rem; font-weight: 800; color: var(--accent); line-height: 1; }
+    .stat-label { color: var(--text-muted); font-size: 0.8rem; font-weight: 500; margin-top: 6px; }
 
-    /* CTA */
-    .final-cta { text-align: center; padding: 96px 0; }
-    .final-cta h2 { font-size: 2rem; font-weight: 800; }
-    .final-cta p { color: var(--text-muted); font-size: 1rem; margin-bottom: 32px; }
+    /* Final CTA — split with image */
+    .final-cta { padding: 56px 0 80px; }
+    .cta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 40px 44px;
+    }
+    .cta-copy h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 10px; }
+    .cta-copy p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 22px; }
+    .cta-image {
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      background: var(--bg-secondary);
+    }
+    .cta-image img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
 
     /* Footer */
     footer {
-      padding: 28px 0;
+      padding: 24px 0;
       border-top: 1px solid var(--border);
       text-align: center;
       color: var(--text-muted);
@@ -314,19 +354,31 @@
       gap: 16px;
       flex-wrap: wrap;
     }
-    footer a {
-      color: var(--text-muted);
-      text-decoration: none;
-    }
+    footer a { color: var(--text-muted); text-decoration: none; }
     footer a:hover { color: var(--text); }
 
-    @media (max-width: 768px) {
-      .hero { padding: 60px 0 50px; }
-      .steps, .feature-grid { grid-template-columns: 1fr; }
-      .stats { gap: 16px; }
-      .stat { min-width: 140px; padding: 20px 24px; }
+    @media (max-width: 860px) {
+      .hero { padding: 40px 0 32px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+      .hero-image { order: -1; aspect-ratio: 16 / 10; }
+      .steps { grid-template-columns: 1fr; gap: 22px; }
+      .feature-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+      .cta-grid { grid-template-columns: 1fr; padding: 28px; }
+      .cta-image { order: -1; }
+      .stats { gap: 14px; }
+      .stat { min-width: 0; flex: 1; padding: 18px 12px; }
       .nav-links { display: none; }
-      section { padding: 56px 0; }
+      section { padding: 40px 0; }
+      .feature-body { padding: 14px 14px 18px; }
+      .feature h3 { font-size: 0.92rem; }
+      .feature p { font-size: 0.78rem; }
+      section h2 { font-size: 1.5rem; }
+    }
+
+    @media (max-width: 460px) {
+      .hero h1 { font-size: 1.9rem; }
+      .feature p { display: none; }
+      .feature-body { padding: 12px 12px 16px; }
     }
   </style>
 </head>
@@ -335,7 +387,7 @@
   <nav>
     <div class="container">
       <a href="/" class="logo">
-        <img src="timberly-logo.png" alt="Timberly" style="height:80px;width:auto;margin:-16px 0;">
+        <img src="timberly-logo.png" alt="Timberly" style="height:72px;width:auto;margin:-14px 0;">
       </a>
       <div class="nav-right">
         <div class="nav-links">
@@ -354,21 +406,41 @@
 
   <section class="hero">
     <div class="container">
-      <span class="hero-badge" data-i18n="hero_badge"></span>
-      <h1 data-i18n-html="hero_title"></h1>
-      <p class="slogan" data-i18n="hero_slogan"></p>
-      <p class="sub" data-i18n="hero_sub"></p>
-      <div class="hero-actions">
-        <a href="https://app.timber.to" class="btn-primary">
-          <span data-i18n="hero_cta"></span>
-          <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-        <a href="#how" class="btn-secondary" data-i18n="hero_how"></a>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="hero-badge" data-i18n="hero_badge"></span>
+          <h1 data-i18n-html="hero_title"></h1>
+          <p class="slogan" data-i18n="hero_slogan"></p>
+          <ul class="hero-bullets">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span data-i18n="hero_bullet1"></span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span data-i18n="hero_bullet2"></span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span data-i18n="hero_bullet3"></span>
+            </li>
+          </ul>
+          <div class="hero-actions">
+            <a href="https://app.timber.to" class="btn-primary">
+              <span data-i18n="hero_cta"></span>
+              <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <a href="#how" class="btn-secondary" data-i18n="hero_how"></a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img src="images/hero.jpg" alt="Timberly dashboard in a Misiones sawmill workshop" loading="eager">
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="how" class="section-border">
+  <section id="how">
     <div class="container">
       <p class="section-label" data-i18n="how_label"></p>
       <h2 data-i18n="how_title"></h2>
@@ -393,63 +465,63 @@
     </div>
   </section>
 
-  <section id="features" class="section-border">
+  <section id="features">
     <div class="container">
       <p class="section-label" data-i18n="feat_label"></p>
       <h2 data-i18n="feat_title"></h2>
       <p class="subtitle" data-i18n="feat_subtitle"></p>
       <div class="feature-grid">
         <div class="feature">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+          <img class="feature-image" src="images/feat-stock.jpg" alt="" loading="lazy">
+          <div class="feature-body">
+            <h3 data-i18n="f1_title"></h3>
+            <p data-i18n="f1_text"></p>
           </div>
-          <h3 data-i18n="f1_title"></h3>
-          <p data-i18n="f1_text"></p>
         </div>
         <div class="feature">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+          <img class="feature-image" src="images/feat-yield.jpg" alt="" loading="lazy">
+          <div class="feature-body">
+            <h3 data-i18n="f2_title"></h3>
+            <p data-i18n="f2_text"></p>
           </div>
-          <h3 data-i18n="f2_title"></h3>
-          <p data-i18n="f2_text"></p>
         </div>
         <div class="feature">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></svg>
+          <img class="feature-image" src="images/feat-orders.jpg" alt="" loading="lazy">
+          <div class="feature-body">
+            <h3 data-i18n="f3_title"></h3>
+            <p data-i18n="f3_text"></p>
           </div>
-          <h3 data-i18n="f3_title"></h3>
-          <p data-i18n="f3_text"></p>
         </div>
         <div class="feature">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <img class="feature-image" src="images/feat-whatsapp.jpg" alt="" loading="lazy">
+          <div class="feature-body">
+            <h3 data-i18n="f4_title"></h3>
+            <p data-i18n="f4_text"></p>
           </div>
-          <h3 data-i18n="f4_title"></h3>
-          <p data-i18n="f4_text"></p>
         </div>
         <div class="feature">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          <img class="feature-image" src="images/feat-ai.jpg" alt="" loading="lazy">
+          <div class="feature-body">
+            <h3 data-i18n="f5_title"></h3>
+            <p data-i18n="f5_text"></p>
           </div>
-          <h3 data-i18n="f5_title"></h3>
-          <p data-i18n="f5_text"></p>
         </div>
         <div class="feature">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          <img class="feature-image" src="images/feat-trace.jpg" alt="" loading="lazy">
+          <div class="feature-body">
+            <h3 data-i18n="f6_title"></h3>
+            <p data-i18n="f6_text"></p>
           </div>
-          <h3 data-i18n="f6_title"></h3>
-          <p data-i18n="f6_text"></p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="proof section-border">
+  <section class="proof">
     <div class="container">
       <p class="section-label" data-i18n="proof_label"></p>
       <h2 data-i18n="proof_title"></h2>
-      <p class="subtitle" style="margin:0 auto 0" data-i18n="proof_subtitle"></p>
+      <p class="subtitle" data-i18n="proof_subtitle"></p>
       <div class="stats">
         <div class="stat">
           <div class="stat-value">6</div>
@@ -467,14 +539,21 @@
     </div>
   </section>
 
-  <section class="final-cta section-border">
+  <section class="final-cta">
     <div class="container">
-      <h2 data-i18n="cta_title"></h2>
-      <p data-i18n="cta_sub"></p>
-      <a href="https://app.timber.to" class="btn-primary">
-        <span data-i18n="cta_btn"></span>
-        <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      </a>
+      <div class="cta-grid">
+        <div class="cta-copy">
+          <h2 data-i18n="cta_title"></h2>
+          <p data-i18n="cta_sub"></p>
+          <a href="https://app.timber.to" class="btn-primary">
+            <span data-i18n="cta_btn"></span>
+            <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+        <div class="cta-image">
+          <img src="images/cta-product.jpg" alt="Timberly on phone and laptop" loading="lazy">
+        </div>
+      </div>
     </div>
   </section>
 
@@ -482,6 +561,7 @@
     <div class="container">
       <p data-i18n="footer"></p>
       <div class="footer-links">
+        <a href="https://www.youtube.com/@gettimberly" target="_blank" rel="noopener">YouTube</a>
         <a href="/privacy-policy.html" data-i18n="footer_privacy"></a>
         <a href="/terms-of-service.html" data-i18n="footer_terms"></a>
       </div>
@@ -497,33 +577,35 @@
         hero_badge: "AI-powered sawmill platform",
         hero_title: 'From <span class="highlight">logs</span> to <span class="highlight">insights</span>.',
         hero_slogan: "AI agents that run your sawmill operations — so you can focus on what matters.",
-        hero_sub: "Your operators report via WhatsApp voice messages. Timberly turns that into real-time production data, stock tracking, and cost analysis.",
+        hero_bullet1: "Native WhatsApp — no new apps to learn",
+        hero_bullet2: "Real-time stock, yield and dispatch",
+        hero_bullet3: "Setup in minutes, no infrastructure",
         hero_cta: "Get started free",
         hero_how: "See how it works",
         how_label: "How it works",
         how_title: "From a WhatsApp voice note to your dashboard",
         how_subtitle: "No new apps, no training, no change to how your operators work.",
         step1_title: "Operator sends a message",
-        step1_text: "A voice note, text, or photo via WhatsApp. They talk the way they always do. Nothing new to learn.",
+        step1_text: "A voice note, text, or photo via WhatsApp. They talk the way they always do.",
         step2_title: "AI extracts the data",
-        step2_text: "Timberly transcribes, interprets, and structures the information. Intake, production, dispatch, shifts.",
+        step2_text: "Timberly transcribes, interprets, and structures the information automatically.",
         step3_title: "You see everything in real time",
-        step3_text: "Stock, yield, order status, costs. All in your dashboard, no spreadsheets, no double entry.",
+        step3_text: "Stock, yield, orders, costs. All in your dashboard, no spreadsheets.",
         feat_label: "Features",
         feat_title: "Everything you need to run the operation",
         feat_subtitle: "Every module feeds from the data your operators already report.",
         f1_title: "Real-time inventory",
-        f1_text: "Stock by species, dimension, and process stage. Know exactly what you have and where it is.",
+        f1_text: "Stock by species, dimension, and process stage. Always up to date.",
         f2_title: "Yield and cost analysis",
-        f2_text: "Yield by stage, operator, and period. Cost per board foot calculated automatically from real data.",
+        f2_text: "Cost per board foot calculated automatically from real production data.",
         f3_title: "Orders and dispatch",
-        f3_text: "Create orders, track production progress, and dispatch when ready. Never lose sight of a commitment.",
+        f3_text: "Track production progress and dispatch when ready. Nothing falls through.",
         f4_title: "Native WhatsApp",
-        f4_text: "Your operators keep using WhatsApp. Voice, text, photos. Timberly understands it all and turns it into data.",
+        f4_text: "Voice, text, photos. Timberly understands it all and turns it into data.",
         f5_title: "AI advisor",
-        f5_text: "Ask the system what to prioritize today, if an order is at risk, or how an operator performed.",
+        f5_text: "Ask what to prioritize, if an order is at risk, or how an operator performed.",
         f6_title: "Full traceability",
-        f6_text: "From the log to dispatch. Every movement is recorded with operator, time, and location.",
+        f6_text: "From the log to dispatch. Every movement is recorded with operator and time.",
         proof_label: "In production",
         proof_title: "Built with real sawmills",
         proof_subtitle: "Designed working side by side with operators and supervisors in Misiones, Argentina.",
@@ -538,51 +620,53 @@
         footer_terms: "Terms of Service",
       },
       es: {
-        nav_how: "Como funciona",
+        nav_how: "Cómo funciona",
         nav_features: "Funcionalidades",
         nav_cta: "Ingresar",
         hero_badge: "Plataforma con IA para aserraderos",
         hero_title: 'De <span class="highlight">rollizos</span> a <span class="highlight">datos</span>.',
         hero_slogan: "Agentes de IA que operan tu aserradero — para que vos te enfoques en lo que importa.",
-        hero_sub: "Tus operadores reportan por WhatsApp con mensajes de voz. Timberly convierte eso en datos de produccion en tiempo real, stock y analisis de costos.",
+        hero_bullet1: "WhatsApp nativo — sin apps nuevas para aprender",
+        hero_bullet2: "Stock, rendimiento y despacho en tiempo real",
+        hero_bullet3: "Configuración en minutos, sin infraestructura",
         hero_cta: "Empezar gratis",
-        hero_how: "Ver como funciona",
-        how_label: "Como funciona",
+        hero_how: "Ver cómo funciona",
+        how_label: "Cómo funciona",
         how_title: "De un audio de WhatsApp a datos en tu dashboard",
-        how_subtitle: "Sin apps nuevas, sin capacitacion, sin cambiar como trabajan tus operadores.",
-        step1_title: "El operador envia un mensaje",
-        step1_text: "Un audio, texto o foto por WhatsApp. Habla como habla siempre. No necesita aprender nada nuevo.",
+        how_subtitle: "Sin apps nuevas, sin capacitación, sin cambiar cómo trabajan tus operadores.",
+        step1_title: "El operador envía un mensaje",
+        step1_text: "Un audio, texto o foto por WhatsApp. Habla como habla siempre.",
         step2_title: "La IA extrae los datos",
-        step2_text: "Timberly transcribe, interpreta y estructura la informacion. Ingreso de madera, produccion, despacho, turnos.",
+        step2_text: "Timberly transcribe, interpreta y estructura la información automáticamente.",
         step3_title: "Vos ves todo en tiempo real",
-        step3_text: "Stock, rendimiento, estado de pedidos, costos. Todo en el dashboard, sin planillas ni doble carga.",
+        step3_text: "Stock, rendimiento, pedidos, costos. Todo en el dashboard, sin planillas.",
         feat_label: "Funcionalidades",
-        feat_title: "Todo lo que necesitas para controlar la operacion",
-        feat_subtitle: "Cada modulo se alimenta de los datos que tus operadores ya reportan.",
+        feat_title: "Todo lo que necesitás para controlar la operación",
+        feat_subtitle: "Cada módulo se alimenta de los datos que tus operadores ya reportan.",
         f1_title: "Stock en tiempo real",
-        f1_text: "Inventario por especie, dimension y etapa de proceso. Sabes exactamente que tenes y donde esta.",
+        f1_text: "Inventario por especie, dimensión y etapa de proceso. Siempre actualizado.",
         f2_title: "Rendimiento y costos",
-        f2_text: "Rendimiento por etapa, operador y periodo. Costo por pie calculado automaticamente.",
+        f2_text: "Costo por pie calculado automáticamente desde la producción real.",
         f3_title: "Pedidos y despacho",
-        f3_text: "Crea pedidos, segui el avance y despacha cuando este listo. Sin perder de vista ningun compromiso.",
+        f3_text: "Seguí el avance y despachá cuando esté listo. Nada se pierde de vista.",
         f4_title: "WhatsApp nativo",
-        f4_text: "Tus operadores siguen usando WhatsApp. Audios, texto, fotos. Timberly entiende todo y lo convierte en datos.",
+        f4_text: "Audios, texto, fotos. Timberly entiende todo y lo convierte en datos.",
         f5_title: "Asesor inteligente",
-        f5_text: "Preguntale al sistema que priorizar hoy, si un pedido esta en riesgo, o como rindio un operador.",
+        f5_text: "Preguntale qué priorizar, si un pedido está en riesgo, o cómo rindió un operador.",
         f6_title: "Trazabilidad completa",
-        f6_text: "Desde el rollizo hasta el despacho. Cada movimiento queda registrado con operador, hora y ubicacion.",
-        proof_label: "En produccion",
-        proof_title: "Disenado con aserraderos reales",
-        proof_subtitle: "Construido trabajando codo a codo con operadores y supervisores de aserraderos en Misiones, Argentina.",
+        f6_text: "Desde el rollizo hasta el despacho. Cada movimiento queda registrado.",
+        proof_label: "En producción",
+        proof_title: "Diseñado con aserraderos reales",
+        proof_subtitle: "Construido trabajando codo a codo con operadores y supervisores en Misiones, Argentina.",
         stat1: "Etapas de proceso",
         stat2: "Tipos de evento",
         stat3: "Idiomas",
-        cta_title: "Empieza a controlar tu aserradero hoy",
-        cta_sub: "Configuracion en minutos. Tus operadores no necesitan aprender nada nuevo.",
+        cta_title: "Empezá a controlar tu aserradero hoy",
+        cta_sub: "Configuración en minutos. Tus operadores no necesitan aprender nada nuevo.",
         cta_btn: "Probar Timberly",
         footer: "&copy; 2026 Timberly. Hecho en Misiones, Argentina.",
-        footer_privacy: "Politica de privacidad",
-        footer_terms: "Terminos del servicio",
+        footer_privacy: "Política de privacidad",
+        footer_terms: "Términos del servicio",
       },
       pt: {
         nav_how: "Como funciona",
@@ -590,46 +674,48 @@
         nav_cta: "Entrar",
         hero_badge: "Plataforma com IA para serrarias",
         hero_title: 'De <span class="highlight">toras</span> a <span class="highlight">dados</span>.',
-        hero_slogan: "Agentes de IA que operam sua serraria — para que voce foque no que importa.",
-        hero_sub: "Seus operadores reportam via WhatsApp com mensagens de voz. Timberly transforma isso em dados de producao em tempo real, estoque e analise de custos.",
-        hero_cta: "Comecar gratis",
+        hero_slogan: "Agentes de IA que operam sua serraria — para que você foque no que importa.",
+        hero_bullet1: "WhatsApp nativo — sem apps novos para aprender",
+        hero_bullet2: "Estoque, rendimento e despacho em tempo real",
+        hero_bullet3: "Configuração em minutos, sem infraestrutura",
+        hero_cta: "Começar grátis",
         hero_how: "Veja como funciona",
         how_label: "Como funciona",
-        how_title: "De um audio no WhatsApp a dados no seu dashboard",
+        how_title: "De um áudio no WhatsApp a dados no seu dashboard",
         how_subtitle: "Sem apps novos, sem treinamento, sem mudar como seus operadores trabalham.",
         step1_title: "O operador envia uma mensagem",
-        step1_text: "Um audio, texto ou foto pelo WhatsApp. Fala como sempre fala. Nao precisa aprender nada novo.",
+        step1_text: "Um áudio, texto ou foto pelo WhatsApp. Fala como sempre fala.",
         step2_title: "A IA extrai os dados",
-        step2_text: "Timberly transcreve, interpreta e estrutura a informacao. Entrada de madeira, producao, despacho, turnos.",
-        step3_title: "Voce ve tudo em tempo real",
-        step3_text: "Estoque, rendimento, status de pedidos, custos. Tudo no dashboard, sem planilhas nem dupla entrada.",
+        step2_text: "Timberly transcreve, interpreta e estrutura a informação automaticamente.",
+        step3_title: "Você vê tudo em tempo real",
+        step3_text: "Estoque, rendimento, pedidos, custos. Tudo no dashboard, sem planilhas.",
         feat_label: "Funcionalidades",
-        feat_title: "Tudo que voce precisa para controlar a operacao",
-        feat_subtitle: "Cada modulo se alimenta dos dados que seus operadores ja reportam.",
+        feat_title: "Tudo que você precisa para controlar a operação",
+        feat_subtitle: "Cada módulo se alimenta dos dados que seus operadores já reportam.",
         f1_title: "Estoque em tempo real",
-        f1_text: "Inventario por especie, dimensao e etapa de processo. Saiba exatamente o que tem e onde esta.",
+        f1_text: "Inventário por espécie, dimensão e etapa de processo. Sempre atualizado.",
         f2_title: "Rendimento e custos",
-        f2_text: "Rendimento por etapa, operador e periodo. Custo por pe calculado automaticamente.",
+        f2_text: "Custo por pé calculado automaticamente a partir da produção real.",
         f3_title: "Pedidos e despacho",
-        f3_text: "Crie pedidos, acompanhe o avanco e despache quando estiver pronto. Sem perder de vista nenhum compromisso.",
+        f3_text: "Acompanhe o avanço e despache quando estiver pronto. Nada se perde.",
         f4_title: "WhatsApp nativo",
-        f4_text: "Seus operadores continuam usando WhatsApp. Audios, texto, fotos. Timberly entende tudo e transforma em dados.",
+        f4_text: "Áudios, texto, fotos. Timberly entende tudo e transforma em dados.",
         f5_title: "Consultor inteligente",
-        f5_text: "Pergunte ao sistema o que priorizar hoje, se um pedido esta em risco, ou como um operador rendeu.",
+        f5_text: "Pergunte o que priorizar, se um pedido está em risco, ou como um operador rendeu.",
         f6_title: "Rastreabilidade completa",
-        f6_text: "Da tora ao despacho. Cada movimento fica registrado com operador, hora e local.",
-        proof_label: "Em producao",
+        f6_text: "Da tora ao despacho. Cada movimento fica registrado.",
+        proof_label: "Em produção",
         proof_title: "Projetado com serrarias reais",
-        proof_subtitle: "Construido trabalhando lado a lado com operadores e supervisores de serrarias em Misiones, Argentina.",
+        proof_subtitle: "Construído trabalhando lado a lado com operadores e supervisores em Misiones, Argentina.",
         stat1: "Etapas de processo",
         stat2: "Tipos de evento",
         stat3: "Idiomas",
         cta_title: "Comece a controlar sua serraria hoje",
-        cta_sub: "Configuracao em minutos. Seus operadores nao precisam aprender nada novo.",
+        cta_sub: "Configuração em minutos. Seus operadores não precisam aprender nada novo.",
         cta_btn: "Experimentar Timberly",
         footer: "&copy; 2026 Timberly. Feito em Misiones, Argentina.",
-        footer_privacy: "Politica de privacidade",
-        footer_terms: "Termos de servico",
+        footer_privacy: "Política de privacidade",
+        footer_terms: "Termos de serviço",
       },
     };
 
