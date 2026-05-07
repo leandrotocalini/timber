@@ -242,30 +242,72 @@
       margin-bottom: 36px;
     }
 
-    /* Steps — compact, 3 in a row, no card backgrounds */
+    /* Steps — image-driven cards with auto-cycle highlight */
     #how { padding-top: 56px; padding-bottom: 56px; }
     .steps {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
+      gap: 18px;
     }
-    .step { padding: 0; }
+    .step {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      opacity: 0.62;
+      transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease;
+    }
+    .step.active {
+      opacity: 1;
+      transform: translateY(-3px);
+      border-color: rgba(34, 197, 148, 0.45);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(34, 197, 148, 0.25);
+    }
+    .step-image {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      display: block;
+      background: var(--bg-secondary);
+      transition: filter 0.6s ease;
+      filter: saturate(0.85) brightness(0.92);
+    }
+    .step.active .step-image {
+      filter: saturate(1.05) brightness(1.02);
+    }
+    .step-body {
+      padding: 18px 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
     .step-number {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       background: var(--accent-dim);
       color: var(--accent);
       font-weight: 700;
-      font-size: 0.9rem;
-      margin-bottom: 14px;
+      font-size: 0.85rem;
       border: 1px solid rgba(34, 197, 148, 0.25);
+      margin-bottom: 6px;
+      transition: background 0.6s ease, border-color 0.6s ease;
     }
-    .step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
-    .step p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.6; }
+    .step.active .step-number {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+    .step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+    .step p { color: var(--text-muted); font-size: 0.86rem; line-height: 1.55; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .step { opacity: 1; transition: none; }
+      .step .step-image { filter: none; }
+    }
 
     /* Features — 3x2 grid with photos */
     .feature-grid {
@@ -426,7 +468,7 @@
             </li>
           </ul>
           <div class="hero-actions">
-            <a href="https://app.timber.to" class="btn-primary">
+            <a href="mailto:info@timber.to?subject=Timberly%20%E2%80%94%20demo%20%2F%20pruebas" class="btn-primary">
               <span data-i18n="hero_cta"></span>
               <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </a>
@@ -447,19 +489,28 @@
       <p class="subtitle" data-i18n="how_subtitle"></p>
       <div class="steps">
         <div class="step">
-          <div class="step-number">1</div>
-          <h3 data-i18n="step1_title"></h3>
-          <p data-i18n="step1_text"></p>
+          <img class="step-image" src="images/step-1-message.jpg" alt="" loading="lazy">
+          <div class="step-body">
+            <div class="step-number">1</div>
+            <h3 data-i18n="step1_title"></h3>
+            <p data-i18n="step1_text"></p>
+          </div>
         </div>
         <div class="step">
-          <div class="step-number">2</div>
-          <h3 data-i18n="step2_title"></h3>
-          <p data-i18n="step2_text"></p>
+          <img class="step-image" src="images/step-2-ai.jpg" alt="" loading="lazy">
+          <div class="step-body">
+            <div class="step-number">2</div>
+            <h3 data-i18n="step2_title"></h3>
+            <p data-i18n="step2_text"></p>
+          </div>
         </div>
         <div class="step">
-          <div class="step-number">3</div>
-          <h3 data-i18n="step3_title"></h3>
-          <p data-i18n="step3_text"></p>
+          <img class="step-image" src="images/step-3-dashboard.jpg" alt="" loading="lazy">
+          <div class="step-body">
+            <div class="step-number">3</div>
+            <h3 data-i18n="step3_title"></h3>
+            <p data-i18n="step3_text"></p>
+          </div>
         </div>
       </div>
     </div>
@@ -517,35 +568,13 @@
     </div>
   </section>
 
-  <section class="proof">
-    <div class="container">
-      <p class="section-label" data-i18n="proof_label"></p>
-      <h2 data-i18n="proof_title"></h2>
-      <p class="subtitle" data-i18n="proof_subtitle"></p>
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-value">6</div>
-          <div class="stat-label" data-i18n="stat1"></div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">12</div>
-          <div class="stat-label" data-i18n="stat2"></div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">3</div>
-          <div class="stat-label" data-i18n="stat3"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="final-cta">
     <div class="container">
       <div class="cta-grid">
         <div class="cta-copy">
           <h2 data-i18n="cta_title"></h2>
           <p data-i18n="cta_sub"></p>
-          <a href="https://app.timber.to" class="btn-primary">
+          <a href="mailto:info@timber.to?subject=Timberly%20%E2%80%94%20demo%20%2F%20pruebas" class="btn-primary">
             <span data-i18n="cta_btn"></span>
             <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
@@ -574,13 +603,13 @@
         nav_how: "How it works",
         nav_features: "Features",
         nav_cta: "Sign in",
-        hero_badge: "AI-powered sawmill platform",
+        hero_badge: "Artificial Intelligence specialized in sawmills",
         hero_title: 'From <span class="highlight">logs</span> to <span class="highlight">insights</span>.',
         hero_slogan: "AI agents that run your sawmill operations — so you can focus on what matters.",
         hero_bullet1: "Native WhatsApp — no new apps to learn",
         hero_bullet2: "Real-time stock, yield and dispatch",
         hero_bullet3: "Setup in minutes, no infrastructure",
-        hero_cta: "Get started free",
+        hero_cta: "Contact us for a demo",
         hero_how: "See how it works",
         how_label: "How it works",
         how_title: "From a WhatsApp voice note to your dashboard",
@@ -606,15 +635,9 @@
         f5_text: "Ask what to prioritize, if an order is at risk, or how an operator performed.",
         f6_title: "Full traceability",
         f6_text: "From the log to dispatch. Every movement is recorded with operator and time.",
-        proof_label: "In production",
-        proof_title: "Built with real sawmills",
-        proof_subtitle: "Designed working side by side with operators and supervisors in Misiones, Argentina.",
-        stat1: "Process stages",
-        stat2: "Event types",
-        stat3: "Languages",
         cta_title: "Start running your sawmill smarter today",
-        cta_sub: "Setup in minutes. Your operators don't need to learn anything new.",
-        cta_btn: "Try Timberly",
+        cta_sub: "Trial, demo and trial period at no cost. Email us at info@timber.to.",
+        cta_btn: "Contact us for a demo",
         footer: "&copy; 2026 Timberly. Made in Misiones, Argentina.",
         footer_privacy: "Privacy Policy",
         footer_terms: "Terms of Service",
@@ -623,13 +646,13 @@
         nav_how: "Cómo funciona",
         nav_features: "Funcionalidades",
         nav_cta: "Ingresar",
-        hero_badge: "Plataforma con IA para aserraderos",
+        hero_badge: "Inteligencia Artificial especializada en aserraderos",
         hero_title: 'De <span class="highlight">rollizos</span> a <span class="highlight">datos</span>.',
         hero_slogan: "Agentes de IA que operan tu aserradero — para que vos te enfoques en lo que importa.",
         hero_bullet1: "WhatsApp nativo — sin apps nuevas para aprender",
         hero_bullet2: "Stock, rendimiento y despacho en tiempo real",
         hero_bullet3: "Configuración en minutos, sin infraestructura",
-        hero_cta: "Empezar gratis",
+        hero_cta: "Contactate por una demo",
         hero_how: "Ver cómo funciona",
         how_label: "Cómo funciona",
         how_title: "De un audio de WhatsApp a datos en tu dashboard",
@@ -655,15 +678,9 @@
         f5_text: "Preguntale qué priorizar, si un pedido está en riesgo, o cómo rindió un operador.",
         f6_title: "Trazabilidad completa",
         f6_text: "Desde el rollizo hasta el despacho. Cada movimiento queda registrado.",
-        proof_label: "En producción",
-        proof_title: "Diseñado con aserraderos reales",
-        proof_subtitle: "Construido trabajando codo a codo con operadores y supervisores en Misiones, Argentina.",
-        stat1: "Etapas de proceso",
-        stat2: "Tipos de evento",
-        stat3: "Idiomas",
         cta_title: "Empezá a controlar tu aserradero hoy",
-        cta_sub: "Configuración en minutos. Tus operadores no necesitan aprender nada nuevo.",
-        cta_btn: "Probar Timberly",
+        cta_sub: "Pruebas, demo y período de prueba sin costo. Escribinos a info@timber.to.",
+        cta_btn: "Contactate por una demo",
         footer: "&copy; 2026 Timberly. Hecho en Misiones, Argentina.",
         footer_privacy: "Política de privacidad",
         footer_terms: "Términos del servicio",
@@ -672,13 +689,13 @@
         nav_how: "Como funciona",
         nav_features: "Funcionalidades",
         nav_cta: "Entrar",
-        hero_badge: "Plataforma com IA para serrarias",
+        hero_badge: "Inteligência Artificial especializada em serrarias",
         hero_title: 'De <span class="highlight">toras</span> a <span class="highlight">dados</span>.',
         hero_slogan: "Agentes de IA que operam sua serraria — para que você foque no que importa.",
         hero_bullet1: "WhatsApp nativo — sem apps novos para aprender",
         hero_bullet2: "Estoque, rendimento e despacho em tempo real",
         hero_bullet3: "Configuração em minutos, sem infraestrutura",
-        hero_cta: "Começar grátis",
+        hero_cta: "Fale conosco para uma demo",
         hero_how: "Veja como funciona",
         how_label: "Como funciona",
         how_title: "De um áudio no WhatsApp a dados no seu dashboard",
@@ -704,15 +721,9 @@
         f5_text: "Pergunte o que priorizar, se um pedido está em risco, ou como um operador rendeu.",
         f6_title: "Rastreabilidade completa",
         f6_text: "Da tora ao despacho. Cada movimento fica registrado.",
-        proof_label: "Em produção",
-        proof_title: "Projetado com serrarias reais",
-        proof_subtitle: "Construído trabalhando lado a lado com operadores e supervisores em Misiones, Argentina.",
-        stat1: "Etapas de processo",
-        stat2: "Tipos de evento",
-        stat3: "Idiomas",
         cta_title: "Comece a controlar sua serraria hoje",
-        cta_sub: "Configuração em minutos. Seus operadores não precisam aprender nada novo.",
-        cta_btn: "Experimentar Timberly",
+        cta_sub: "Teste, demo e período de avaliação sem custo. Escreva para info@timber.to.",
+        cta_btn: "Fale conosco para uma demo",
         footer: "&copy; 2026 Timberly. Feito em Misiones, Argentina.",
         footer_privacy: "Política de privacidade",
         footer_terms: "Termos de serviço",
@@ -752,6 +763,32 @@
     });
 
     setLang(detectLang());
+
+    // Auto-cycle highlight on "Cómo funciona" steps. Pauses on hover. Disabled if user prefers reduced motion.
+    (function cycleSteps() {
+      var steps = Array.from(document.querySelectorAll("#how .step"));
+      if (steps.length === 0) return;
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) {
+        steps.forEach(function (s) { s.classList.add("active"); });
+        return;
+      }
+
+      var i = 0;
+      function tick() {
+        steps.forEach(function (s, idx) { s.classList.toggle("active", idx === i); });
+        i = (i + 1) % steps.length;
+      }
+      tick();
+      var timer = setInterval(tick, 2800);
+
+      // Pause on hover, resume on leave (use the section as the hover target).
+      var section = document.getElementById("how");
+      if (section) {
+        section.addEventListener("mouseenter", function () { clearInterval(timer); }, { passive: true });
+        section.addEventListener("mouseleave", function () { timer = setInterval(tick, 2800); }, { passive: true });
+      }
+    })();
   </script>
 
 </body>
