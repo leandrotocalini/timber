@@ -1,594 +1,933 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Timberly — AI agents for sawmill operations</title>
-  <meta name="description" content="From logs to insights. AI agents that run your sawmill operations — so you can focus on what matters.">
-  <meta property="og:title" content="Timberly — AI agents for sawmill operations">
-  <meta property="og:description" content="From logs to insights. AI agents that run your sawmill operations — so you can focus on what matters.">
+  <title>Timberly — El aserradero cuenta lo que pasa. Timberly lo anota.</title>
+  <meta name="description" content="Tus operarios mandan un audio o una foto por WhatsApp. Timberly lo convierte en recepciones, paquetes, secado, stock, despachos y trazabilidad.">
+  <meta property="og:title" content="Timberly — Gestión de aserraderos por WhatsApp">
+  <meta property="og:description" content="Tus operarios mandan un audio o una foto por WhatsApp. Timberly lo convierte en recepciones, paquetes, secado, stock, despachos y trazabilidad.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://timber.to">
-  <meta property="og:image" content="https://timber.to/images/hero.jpg">
+  <meta property="og:image" content="https://timber.to/images/step-1-message.jpg">
   <link rel="canonical" href="https://timber.to">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0d0f1a;
-      --bg-card: #141626;
-      --bg-secondary: #1e2036;
-      --bg-muted: #1a1c30;
-      --text: #ececec;
-      --text-muted: #8b8b8b;
-      --accent: #22c594;
-      --accent-dim: rgba(34, 197, 148, 0.12);
-      --border: #23253c;
-      --radius: 10px;
+      --paper: #f6efe3;
+      --paper-2: #fdf9f2;
+      --paper-3: #efe4d2;
+      --ink: #26190f;
+      --ink-2: #4f3d2e;
+      --muted: #8a7461;
+      --line: #e3d3bb;
+      --line-2: #d2bd9c;
+      --wood: #b8763b;
+      --wood-2: #d9a066;
+      --wood-3: #f0cf9d;
+      --bark: #4a2f1c;
+      --sawdust: #ecdcc0;
+      --teal: #22c594;
+      --teal-ink: #0f8a66;
+      --teal-soft: #d6f4e8;
+      --teal-line: #9fe3c9;
+      --wa: #25d366;
+      --wa-out: #dcf8c6;
+      --wa-bg: #ece3d6;
+      --amber: #c7801a;
+      --amber-soft: #fbeccd;
+      --red: #b9452f;
+      --radius: 14px;
+      --radius-lg: 22px;
+      --shadow: 0 1px 2px rgba(60, 35, 10, 0.06), 0 10px 30px -10px rgba(60, 35, 10, 0.22);
+      --shadow-lg: 0 2px 4px rgba(60, 35, 10, 0.06), 0 30px 60px -20px rgba(60, 35, 10, 0.35);
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: var(--font-sans);
+      background: var(--paper);
+      color: var(--ink);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-    }
-
-    .container {
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* Nav */
-    nav {
-      padding: 14px 0;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      background: rgba(13, 15, 26, 0.9);
-      backdrop-filter: blur(12px);
-      z-index: 10;
-    }
-    nav .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .logo {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--text);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .nav-right { display: flex; align-items: center; gap: 24px; }
-    .nav-links { display: flex; align-items: center; gap: 28px; }
-    .nav-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.875rem;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--text); }
-    .lang-switcher { display: flex; gap: 4px; }
-    .lang-btn {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      transition: all 0.2s;
-      text-transform: uppercase;
-    }
-    .lang-btn:hover { color: var(--text); border-color: var(--text-muted); }
-    .lang-btn.active {
-      background: var(--accent-dim);
-      color: var(--accent);
-      border-color: rgba(34, 197, 148, 0.3);
-    }
-    .nav-cta {
-      background: var(--accent);
-      color: var(--bg);
-      padding: 8px 20px;
-      border-radius: var(--radius);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.875rem;
-      transition: background 0.2s;
-    }
-    .nav-cta:hover { background: #1eb385; }
-
-    /* Hero — split layout */
-    .hero {
-      padding: 64px 0 56px;
-    }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 56px;
-      align-items: center;
-    }
-    .hero-badge {
-      display: inline-block;
-      background: var(--accent-dim);
-      color: var(--accent);
-      padding: 5px 14px;
-      border-radius: 20px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      margin-bottom: 18px;
-      border: 1px solid rgba(34, 197, 148, 0.2);
-    }
-    .hero h1 {
-      font-size: clamp(2rem, 4.4vw, 3rem);
-      font-weight: 800;
-      line-height: 1.1;
-      margin-bottom: 18px;
-      letter-spacing: -0.025em;
-    }
-    .hero h1 .highlight { color: var(--accent); }
-    .hero .slogan {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      margin-bottom: 22px;
-      line-height: 1.55;
-      font-weight: 500;
-    }
-    .hero-bullets {
-      list-style: none;
-      margin-bottom: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .hero-bullets li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text);
-      font-size: 0.92rem;
-    }
-    .hero-bullets svg {
-      width: 16px;
-      height: 16px;
-      color: var(--accent);
-      flex-shrink: 0;
-    }
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--accent);
-      color: var(--bg);
-      padding: 12px 24px;
-      border-radius: var(--radius);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: background 0.2s;
-    }
-    .btn-primary:hover { background: #1eb385; }
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--bg-secondary);
-      color: var(--text);
-      padding: 12px 24px;
-      border-radius: var(--radius);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      border: 1px solid var(--border);
-      transition: background 0.2s;
-    }
-    .btn-secondary:hover { background: var(--bg-muted); }
-    .arrow-icon { width: 16px; height: 16px; }
-
-    .hero-image {
+      overflow-x: hidden;
       position: relative;
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: 1px solid var(--border);
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-      aspect-ratio: 690 / 440;
-      background: var(--bg-card);
     }
-    .hero-image img {
+    /* paper grain */
+    body::before {
+      content: "";
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.2 0 0 0 0 0.1 0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.12'/></svg>");
+      mix-blend-mode: multiply;
+      opacity: .55;
+    }
+    body > * { position: relative; z-index: 1; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+    b, strong { font-weight: 600; }
+
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+    h1, h2, h3, .display {
+      font-family: var(--font-display);
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      line-height: 1.08;
+      font-variation-settings: "opsz" 96;
+    }
+    h1 em, h2 em { font-style: italic; color: var(--teal-ink); font-weight: 600; }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--teal-ink);
+    }
+    .eyebrow::before { content: ""; width: 22px; height: 2px; background: var(--teal); border-radius: 2px; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 24px; border-radius: 999px;
+      font-weight: 600; font-size: 0.95rem; text-decoration: none;
+      border: 1.5px solid transparent; cursor: pointer; font-family: inherit;
+      transition: transform .2s ease, background .2s ease, box-shadow .2s ease, border-color .2s;
+      white-space: nowrap;
+    }
+    .btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .btn-primary { background: var(--ink); color: var(--paper-2); box-shadow: 0 10px 24px -10px rgba(38,25,15,.6); }
+    .btn-primary:hover { background: #3a2a1d; transform: translateY(-1px); }
+    .btn-teal { background: var(--teal); color: #072b1f; box-shadow: 0 10px 24px -8px rgba(34,197,148,.6); }
+    .btn-teal:hover { background: #2ad39f; transform: translateY(-1px); }
+    .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
+    .btn-ghost:hover { background: var(--paper-2); border-color: var(--bark); }
+
+    /* ---------- Nav ---------- */
+    nav.top {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(246, 239, 227, 0.82);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(210, 189, 156, 0.5);
+    }
+    nav.top .container { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
+    .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: 1.45rem; letter-spacing: -0.02em; color: var(--ink); }
+    .logo svg { width: 30px; height: 30px; }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a { text-decoration: none; font-size: 0.9rem; font-weight: 500; color: var(--ink-2); transition: color .2s; }
+    .nav-links a:hover { color: var(--teal-ink); }
+    .lang-switcher { display: flex; gap: 2px; background: var(--paper-3); padding: 3px; border-radius: 999px; }
+    .lang-btn {
+      background: none; border: 0; color: var(--muted); padding: 5px 10px; border-radius: 999px;
+      font-size: 0.72rem; font-weight: 700; cursor: pointer; font-family: inherit; letter-spacing: .04em;
+      transition: all .2s;
+    }
+    .lang-btn:hover { color: var(--ink); }
+    .lang-btn.active { background: var(--paper-2); color: var(--ink); box-shadow: 0 1px 3px rgba(60,35,10,.15); }
+    .nav-cta { padding: 9px 18px; font-size: 0.85rem; }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 72px 0 40px; position: relative; overflow: hidden; }
+    .hero .rings {
+      position: absolute; right: -180px; top: -220px; width: 780px; height: 780px; opacity: .55; pointer-events: none;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; position: relative; }
+    .hero h1 { font-size: clamp(2.4rem, 5.2vw, 4.1rem); margin: 18px 0 20px; }
+    .hero .slogan { font-size: 1.12rem; color: var(--ink-2); max-width: 520px; margin-bottom: 28px; line-height: 1.6; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 26px; }
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: 999px;
+      background: var(--paper-2); border: 1px solid var(--line); font-size: 0.8rem; font-weight: 500; color: var(--ink-2);
+    }
+    .chip svg { width: 14px; height: 14px; color: var(--teal-ink); }
+
+    /* hero collage */
+    .collage { position: relative; height: 560px; }
+    .collage .photo {
+      position: absolute; right: 0; top: 0; width: 78%; aspect-ratio: 4 / 3; border-radius: var(--radius-lg);
+      overflow: hidden; transform: rotate(2deg); box-shadow: var(--shadow-lg);
+      background: var(--paper-2); padding: 10px; border: 1px solid var(--line);
+    }
+    .collage .photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+    .collage .photo figcaption {
+      position: absolute; left: 20px; top: 20px; font-family: var(--font-display); font-style: italic; font-size: .82rem; color: var(--ink-2);
+      background: rgba(253, 249, 242, .92); padding: 4px 11px; border-radius: 999px; box-shadow: 0 1px 3px rgba(60,35,10,.2);
+    }
+    .collage .phone-wrap { position: absolute; left: 0; bottom: 20px; width: 290px; transform: rotate(-3deg); z-index: 2; }
+    .collage .ticket { position: absolute; right: -6px; bottom: 20px; width: 244px; transform: rotate(1.5deg); z-index: 3; }
+    .collage .photo figcaption { max-width: 44%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .collage .link-line { position: absolute; left: 240px; bottom: 160px; width: 190px; height: 80px; z-index: 2; pointer-events: none; }
+    .collage .link-line path { fill: none; stroke: var(--teal-ink); stroke-width: 2; stroke-dasharray: 5 6; stroke-linecap: round; }
+
+    /* ---------- Phone ---------- */
+    .phone {
+      background: #1d1a17; border-radius: 34px; padding: 10px; box-shadow: var(--shadow-lg), inset 0 0 0 1px rgba(255,255,255,.08);
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+    }
+    .phone-inner { background: var(--wa-bg); border-radius: 26px; overflow: hidden; display: flex; flex-direction: column; height: 100%;
+      background-image: radial-gradient(rgba(120,90,50,.09) 1px, transparent 1.2px); background-size: 14px 14px; }
+    .phone-top { display: flex; align-items: center; gap: 10px; padding: 14px 14px 10px; background: #f3ede2; border-bottom: 1px solid rgba(0,0,0,.06); }
+    .phone-top .avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--teal); display: grid; place-items: center; }
+    .phone-top .avatar svg { width: 18px; height: 18px; }
+    .phone-top b { display: block; font-size: .86rem; line-height: 1.15; }
+    .phone-top span { font-size: .7rem; color: var(--teal-ink); font-weight: 500; }
+    .phone-screen { padding: 12px 10px; display: flex; flex-direction: column; gap: 8px; min-height: 300px; }
+    .phone-input { display: flex; align-items: center; gap: 8px; padding: 8px 10px 10px; }
+    .phone-input .fake { flex: 1; height: 32px; border-radius: 999px; background: #fff; border: 1px solid rgba(0,0,0,.06); }
+    .phone-input .mic { width: 32px; height: 32px; border-radius: 50%; background: var(--wa); display: grid; place-items: center; }
+    .phone-input .mic svg { width: 16px; height: 16px; color: #fff; }
+
+    .msg {
+      max-width: 88%; padding: 8px 11px; border-radius: 12px; font-size: 0.8rem; line-height: 1.45;
+      background: #fff; color: var(--ink); box-shadow: 0 1px 1px rgba(0,0,0,.08); position: relative;
+      align-self: flex-start; border-top-left-radius: 4px;
+    }
+    .msg.out { align-self: flex-end; background: var(--wa-out); border-top-left-radius: 12px; border-top-right-radius: 4px; }
+    .msg b { font-weight: 700; }
+    .msg .time { display: block; text-align: right; font-size: .62rem; color: var(--muted); margin-top: 3px; line-height: 1; }
+    .msg.voice { display: flex; align-items: center; gap: 8px; min-width: 190px; flex-wrap: wrap; }
+    .msg.voice .transcript { flex-basis: 100%; }
+    .msg.voice .play { width: 26px; height: 26px; border-radius: 50%; background: var(--wa); flex-shrink: 0; display: grid; place-items: center; }
+    .msg.voice .play svg { width: 11px; height: 11px; color: #fff; margin-left: 2px; }
+    .wave { display: flex; align-items: center; gap: 2px; height: 22px; flex: 1; }
+    .wave i { display: block; width: 2.5px; border-radius: 2px; background: #6c8a62; height: var(--h, 40%); }
+    .msg.voice .dur { font-size: .65rem; color: var(--muted); font-family: var(--font-mono); }
+    .msg .transcript { display: block; font-style: italic; color: var(--ink-2); font-size: .74rem; margin-top: 2px; }
+    .msg.photo { padding: 5px; }
+    .msg.photo .doc {
+      width: 170px; aspect-ratio: 4/3; border-radius: 8px; background: linear-gradient(160deg, #fff 0%, #f1ead9 100%);
+      border: 1px solid rgba(0,0,0,.08); position: relative; overflow: hidden;
+    }
+    .msg.photo .doc::before { content: ""; position: absolute; left: 14px; right: 14px; top: 14px; height: 7px; border-radius: 3px; background: #c9b89a; box-shadow: 0 14px 0 -2px #ddd0b6, 0 26px 0 -2px #ddd0b6, 0 38px 0 -2px #e6dac3, 0 50px 0 -2px #e6dac3, 0 62px 0 -2px #e6dac3; }
+    .msg.photo .doc::after { content: ""; position: absolute; right: 14px; top: 12px; width: 34px; height: 14px; border-radius: 3px; background: var(--wood-2); opacity: .7; }
+    .msg.photo .doc img { width: 100%; height: 100%; object-fit: cover; }
+    .msg.photo .cap { font-size: .74rem; padding: 4px 6px 2px; }
+    .btns { display: flex; gap: 6px; align-self: flex-start; flex-wrap: wrap; max-width: 88%; }
+    .btns span { background: #fff; color: var(--teal-ink); font-weight: 600; font-size: .74rem; padding: 6px 12px; border-radius: 999px; box-shadow: 0 1px 1px rgba(0,0,0,.08); }
+    .btns span.sel { background: var(--teal-soft); }
+    .msg.alert { border-left: 3px solid var(--amber); }
+    .typing { display: inline-flex; gap: 4px; padding: 10px 12px; }
+    .typing i { width: 6px; height: 6px; border-radius: 50%; background: #b5a893; animation: blink 1.2s infinite; }
+    .typing i:nth-child(2) { animation-delay: .2s; } .typing i:nth-child(3) { animation-delay: .4s; }
+    @keyframes blink { 0%, 80%, 100% { opacity: .3 } 40% { opacity: 1 } }
+
+    /* ---------- Ticket (data card) ---------- */
+    .ticket {
+      background: var(--paper-2); border: 1px solid var(--line-2); border-radius: 12px; padding: 14px 16px 12px;
+      box-shadow: var(--shadow); position: relative;
+      background-image: repeating-linear-gradient(0deg, transparent 0 27px, rgba(184,118,59,.06) 27px 28px);
+    }
+    .ticket::before { content: ""; position: absolute; top: -1px; left: 16px; right: 16px; height: 3px; border-radius: 0 0 3px 3px; background: var(--teal); }
+    .ticket .t-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed var(--line-2); }
+    .ticket .t-head b { font-family: var(--font-mono); font-size: .92rem; letter-spacing: .02em; }
+    .ticket .t-head span { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--teal-ink); }
+    .ticket .row { display: flex; justify-content: space-between; gap: 12px; font-size: .78rem; padding: 3px 0; }
+    .ticket .row span:first-child { color: var(--muted); }
+    .ticket .row span:last-child { font-family: var(--font-mono); font-weight: 500; text-align: right; }
+    .ticket:has(.stamp) { padding-bottom: 32px; }
+    .ticket .stamp {
+      position: absolute; right: 12px; bottom: 8px; font-family: var(--font-display); font-style: italic; font-size: .7rem; color: var(--teal-ink);
+      border: 1.5px solid var(--teal-ink); border-radius: 6px; padding: 2px 7px; transform: rotate(-6deg); opacity: .8;
     }
 
-    /* Sections */
-    section { padding: 56px 0; }
-    .section-label {
-      text-transform: uppercase;
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: 0.12em;
-      margin-bottom: 12px;
-    }
-    section h2 {
-      font-size: 1.85rem;
-      font-weight: 700;
-      margin-bottom: 14px;
-      letter-spacing: -0.02em;
-    }
-    section .subtitle {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      max-width: 540px;
-      margin-bottom: 36px;
-    }
+    /* ---------- Sections ---------- */
+    section { padding: 88px 0; }
+    .section-head { max-width: 640px; margin-bottom: 44px; }
+    .section-head h2 { font-size: clamp(1.9rem, 3.6vw, 2.8rem); margin: 14px 0 14px; }
+    .section-head p { color: var(--ink-2); font-size: 1.05rem; }
+    .section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
+    .section-head.center .eyebrow::before { display: none; }
 
-    /* Steps — image-driven cards with auto-cycle highlight */
-    #how { padding-top: 56px; padding-bottom: 56px; }
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
+    /* Who */
+    .who { padding-top: 40px; }
+    .who-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .who-card {
+      background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 28px 26px;
+      position: relative; overflow: hidden; transition: transform .25s ease, box-shadow .25s ease;
     }
-    .step {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      opacity: 0.62;
-      transition: opacity 0.35s ease, transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    .who-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+    .who-card .role { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--wood); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .who-card .role svg { width: 18px; height: 18px; color: var(--wood); }
+    .who-card h3 { font-size: 1.35rem; margin-bottom: 10px; }
+    .who-card p { color: var(--ink-2); font-size: .95rem; }
+    .who-card .grain { position: absolute; right: -40px; bottom: -60px; width: 180px; height: 180px; opacity: .18; }
+
+    /* Journey */
+    .journey { background: linear-gradient(180deg, var(--paper) 0%, var(--paper-3) 40%, var(--paper) 100%); position: relative; }
+    .journey-grid { display: grid; grid-template-columns: 1fr 360px; gap: 72px; align-items: start; }
+    .chapters { position: relative; padding-left: 56px; }
+    .chapters .rail { position: absolute; left: 17px; top: 10px; bottom: 10px; width: 2px; background: var(--line-2); border-radius: 2px; overflow: hidden; }
+    .chapters .rail i { position: absolute; left: 0; top: 0; width: 100%; height: var(--p, 0%); background: var(--teal); transition: height .3s ease; }
+    .chapter { position: relative; padding: 10px 0 64px; }
+    .chapter:last-child { padding-bottom: 20px; }
+    .chapter .dot {
+      position: absolute; left: -56px; top: 10px; width: 36px; height: 36px; border-radius: 50%;
+      background: var(--paper-2); border: 2px solid var(--line-2); display: grid; place-items: center;
+      font-family: var(--font-mono); font-size: .74rem; font-weight: 600; color: var(--muted);
+      transition: all .3s ease;
     }
-    .step.active {
-      opacity: 1;
-      transform: translateY(-3px);
-      border-color: rgba(34, 197, 148, 0.45);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(34, 197, 148, 0.25);
+    .chapter.active .dot { background: var(--teal); border-color: var(--teal); color: #072b1f; box-shadow: 0 0 0 6px var(--teal-soft); }
+    .chapter .stage { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--wood); display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .chapter .stage svg { width: 18px; height: 18px; }
+    .chapter h3 { font-size: clamp(1.4rem, 2.4vw, 1.9rem); margin-bottom: 12px; transition: color .3s; }
+    .chapter p { color: var(--ink-2); max-width: 520px; font-size: 1rem; }
+    .chapter .ticket { margin-top: 22px; max-width: 420px; }
+    .chapter .chat { display: none; }
+    .chapter .ticket .note-label { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--teal-ink); }
+    .chapter { opacity: .55; transition: opacity .35s ease; }
+    .chapter.active { opacity: 1; }
+    .phone-sticky { position: sticky; top: 96px; }
+    .phone-sticky .phone-screen { min-height: 440px; max-height: 520px; }
+    .phone-sticky .phone { transform: rotate(0); }
+    .phone-caption { text-align: center; margin-top: 14px; font-family: var(--font-display); font-style: italic; color: var(--muted); font-size: .9rem; }
+    .phone-screen .msg, .phone-screen .btns { animation: pop .45s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i, 0) * .32s); }
+    @keyframes pop { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: none; } }
+
+    /* Dashboard */
+    .dash-wrap { display: grid; grid-template-columns: 1fr 1.35fr; gap: 48px; align-items: center; }
+    .dash-points { display: flex; flex-direction: column; gap: 18px; margin-top: 26px; }
+    .point { display: flex; gap: 14px; }
+    .point .ic { width: 38px; height: 38px; border-radius: 10px; background: var(--teal-soft); display: grid; place-items: center; flex-shrink: 0; }
+    .point .ic svg { width: 18px; height: 18px; color: var(--teal-ink); }
+    .point b { display: block; font-size: .98rem; margin-bottom: 2px; }
+    .point span { color: var(--ink-2); font-size: .9rem; }
+    .dash {
+      background: #fff; border-radius: 16px; border: 1px solid var(--line); box-shadow: var(--shadow-lg); overflow: hidden;
+      font-size: .78rem; transform: rotate(-1deg);
     }
-    .step-image {
-      width: 100%;
-      aspect-ratio: 16 / 10;
-      object-fit: cover;
-      display: block;
-      background: var(--bg-secondary);
-      transition: filter 0.35s ease;
-      filter: saturate(0.85) brightness(0.92);
+    .dash-bar { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid #eee5d6; background: #fbf8f2; }
+    .dash-bar .tabs { display: flex; gap: 14px; margin-left: 12px; color: var(--muted); font-weight: 500; white-space: nowrap; overflow: hidden; }
+    .dash-bar .tabs span.on { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--teal); }
+    .dash-bar .logo { font-size: 1rem; gap: 6px; } .dash-bar .logo svg { width: 20px; height: 20px; }
+    .dash-body { padding: 14px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 12px; }
+    .kpis { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .kpi { border: 1px solid #ece4d5; border-radius: 10px; padding: 10px 12px; background: #fdfbf7; }
+    .kpi span { display: block; color: var(--muted); font-size: .68rem; font-weight: 500; margin-bottom: 4px; }
+    .kpi b { font-family: var(--font-mono); font-size: 1.05rem; font-weight: 600; }
+    .kpi small { font-size: .62rem; color: var(--teal-ink); font-weight: 600; margin-left: 4px; }
+    .card { border: 1px solid #ece4d5; border-radius: 10px; padding: 12px; background: #fff; }
+    .card h4 { font-family: var(--font-sans); font-size: .76rem; font-weight: 600; margin-bottom: 10px; display: flex; justify-content: space-between; }
+    .card h4 span { color: var(--muted); font-weight: 500; }
+    .chart { display: flex; align-items: flex-end; gap: 8px; height: 96px; padding-top: 4px; border-bottom: 1px solid #ece4d5; }
+    .chart .bar { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 4px; }
+    .chart .bar i { display: block; width: 100%; max-width: 34px; height: var(--v); background: var(--teal); border-radius: 4px 4px 0 0; transform-origin: bottom; }
+    .chart .bar em { font-style: normal; font-family: var(--font-mono); font-size: .62rem; color: var(--ink-2); }
+    .chart-x { display: flex; gap: 8px; margin-top: 6px; }
+    .chart-x span { flex: 1; text-align: center; font-size: .62rem; color: var(--muted); }
+    .chambers { display: flex; flex-direction: column; gap: 8px; }
+    .chamber { display: grid; grid-template-columns: auto 1fr 44px; gap: 8px; align-items: center; font-size: .7rem; white-space: nowrap; }
+    .chamber .bar { height: 7px; border-radius: 4px; background: #efe6d6; overflow: hidden; }
+    .chamber .bar i { display: block; height: 100%; width: var(--v); background: var(--wood-2); border-radius: 4px; }
+    .chamber .bar i.hot { background: var(--amber); }
+    .chamber .mono { text-align: right; color: var(--ink-2); }
+    .alerts { display: flex; flex-direction: column; gap: 6px; }
+    .alert-row { display: flex; gap: 8px; align-items: flex-start; font-size: .7rem; padding: 6px 8px; border-radius: 8px; background: #fdfbf7; border: 1px solid #ece4d5; }
+    .alert-row i { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; background: var(--amber); }
+    .alert-row i.ok { background: var(--teal); }
+    .alert-row i.bad { background: var(--red); }
+    .advisor { grid-column: 1 / -1; background: #fdfbf7; }
+    .advisor .q { display: inline-block; background: var(--ink); color: var(--paper-2); padding: 7px 11px; border-radius: 12px 12px 2px 12px; font-size: .74rem; margin-bottom: 8px; }
+    .advisor .a { background: #fff; border: 1px solid #ece4d5; padding: 9px 11px; border-radius: 2px 12px 12px 12px; font-size: .74rem; line-height: 1.5; }
+    .advisor .a .export { display: inline-flex; align-items: center; gap: 5px; margin-top: 6px; color: var(--teal-ink); font-weight: 600; font-size: .68rem; }
+    .advisor .a .export svg { width: 12px; height: 12px; }
+
+    /* Features */
+    .feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feat {
+      background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 24px;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s;
     }
-    .step.active .step-image {
-      filter: saturate(1.05) brightness(1.02);
+    .feat:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--teal-line); }
+    .feat .ic { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(145deg, var(--wood-3), var(--sawdust)); display: grid; place-items: center; margin-bottom: 16px; }
+    .feat .ic svg { width: 22px; height: 22px; color: var(--bark); }
+    .feat h3 { font-size: 1.2rem; margin-bottom: 8px; }
+    .feat p { color: var(--ink-2); font-size: .92rem; }
+    .feat .tag { display: inline-block; margin-top: 12px; font-family: var(--font-mono); font-size: .66rem; color: var(--teal-ink); background: var(--teal-soft); padding: 3px 8px; border-radius: 6px; }
+    .feat-photo { grid-column: span 1; border-radius: var(--radius-lg); overflow: hidden; min-height: 220px; position: relative; border: 1px solid var(--line); }
+    .feat-photo img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .feat-photo figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 18px; background: linear-gradient(0deg, rgba(38,25,15,.85), transparent); color: var(--paper-2); font-family: var(--font-display); font-style: italic; font-size: .95rem; }
+
+    /* Why */
+    .why { background: var(--bark); color: var(--paper-2); position: relative; overflow: hidden; }
+    .why .rings { position: absolute; left: -260px; bottom: -300px; width: 760px; height: 760px; opacity: .22; pointer-events: none; }
+    .why .eyebrow { color: var(--teal); } .why .eyebrow::before { background: var(--teal); }
+    .why .section-head p { color: #d9c8b2; }
+    .why-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; position: relative; }
+    .why-list { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 32px; }
+    .why-item h3 { font-size: 1.2rem; margin-bottom: 8px; color: #fff; }
+    .why-item p { color: #d9c8b2; font-size: .93rem; }
+    .why-item .n { font-family: var(--font-mono); color: var(--teal); font-size: .74rem; margin-bottom: 10px; display: block; }
+    .no-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-lg); padding: 26px; align-self: start; }
+    .no-card h3 { font-size: 1.2rem; margin-bottom: 14px; color: #fff; }
+    .no-card ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .no-card li { display: flex; gap: 10px; align-items: flex-start; color: #efe3d1; font-size: .95rem; }
+    .no-card li svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 3px; color: var(--teal); }
+
+    /* CTA */
+    .cta { padding: 96px 0; }
+    .cta-box {
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center;
+      background: var(--paper-2); border: 1px solid var(--line); border-radius: 28px; padding: 44px 48px; box-shadow: var(--shadow);
+      position: relative; overflow: hidden;
     }
-    .step-body {
-      padding: 18px 20px 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .step-number {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: var(--accent-dim);
-      color: var(--accent);
-      font-weight: 700;
-      font-size: 0.85rem;
-      border: 1px solid rgba(34, 197, 148, 0.25);
-      margin-bottom: 6px;
-      transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease;
-    }
-    .step.active .step-number {
-      background: var(--accent);
-      color: var(--bg);
-      border-color: var(--accent);
-    }
-    .step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
-    .step p { color: var(--text-muted); font-size: 0.86rem; line-height: 1.55; }
+    .cta-box h2 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); margin: 12px 0 12px; }
+    .cta-box p { color: var(--ink-2); font-size: 1.05rem; margin-bottom: 24px; }
+    .cta-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .cta-img { border-radius: 18px; overflow: hidden; aspect-ratio: 16/10; transform: rotate(1.5deg); box-shadow: var(--shadow-lg); border: 6px solid #fff; }
+    .cta-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    footer { padding: 32px 0 44px; border-top: 1px solid var(--line); color: var(--muted); font-size: .84rem; }
+    footer .container { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--ink); }
+
+    /* reveal */
+    .rv { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .rv.in { opacity: 1; transform: none; }
+    .rv.d1 { transition-delay: .1s } .rv.d2 { transition-delay: .2s } .rv.d3 { transition-delay: .3s }
+
+    /* hero chat states */
+    .hero-chat .st { display: none; }
+    .hero-chat[data-state="0"] .s0, .hero-chat[data-state="1"] .s0, .hero-chat[data-state="1"] .s1,
+    .hero-chat[data-state="2"] .s0, .hero-chat[data-state="2"] .s2,
+    .hero-chat[data-state="3"] .s0, .hero-chat[data-state="3"] .s2 { display: flex; }
+    .hero-chat .s2.msg { display: block; }
+    .hero-chat[data-state="0"] .s2, .hero-chat[data-state="1"] .s2 { display: none !important; }
+    .collage .ticket { opacity: 0; transform: rotate(1.5deg) translateY(14px); transition: opacity .5s ease, transform .5s ease; }
+    .collage .link-line path { stroke-dashoffset: 300; transition: stroke-dashoffset .9s ease; }
+    .collage.show-ticket .ticket { opacity: 1; transform: rotate(1.5deg) translateY(0); }
+    .collage.show-ticket .link-line path { stroke-dashoffset: 0; }
+    .collage .msg { animation: pop .45s cubic-bezier(.2,.8,.2,1) both; }
 
     @media (prefers-reduced-motion: reduce) {
-      .step { opacity: 1; transition: none; }
-      .step .step-image { filter: none; }
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .rv { opacity: 1; transform: none; }
+      .chapter { opacity: 1; }
+      .hero-chat .st { display: flex !important; } .hero-chat .s1 { display: none !important; }
+      .hero-chat .s2.msg { display: block !important; }
+      .collage .ticket { opacity: 1; transform: rotate(1.5deg); }
+      .collage .link-line path { stroke-dashoffset: 0; }
     }
 
-    /* Features — 3x2 grid with photos */
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
+    /* ---------- Responsive ---------- */
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .collage { height: auto; min-height: 520px; max-width: 560px; margin: 0 auto; width: 100%; }
+      .journey-grid { grid-template-columns: 1fr; gap: 0; }
+      .phone-sticky { display: none; }
+      .chapter .chat { display: flex; flex-direction: column; gap: 8px; margin-top: 22px; max-width: 420px; padding: 14px 12px; border-radius: 16px; background: var(--wa-bg); border: 1px solid var(--line); background-image: radial-gradient(rgba(120,90,50,.09) 1px, transparent 1.2px); background-size: 14px 14px; }
+      .chapter { opacity: 1; }
+      .dash-wrap { grid-template-columns: 1fr; }
+      .dash { transform: none; }
+      .why-grid { grid-template-columns: 1fr; }
+      .feat-grid { grid-template-columns: 1fr 1fr; }
+      .cta-box { grid-template-columns: 1fr; padding: 32px; }
+      .cta-img { order: -1; max-width: 480px; }
     }
-    .feature {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: transform 0.2s, border-color 0.2s;
-    }
-    .feature:hover {
-      transform: translateY(-2px);
-      border-color: rgba(34, 197, 148, 0.3);
-    }
-    .feature-image {
-      width: 100%;
-      aspect-ratio: 16 / 10;
-      object-fit: cover;
-      display: block;
-      background: var(--bg-secondary);
-    }
-    .feature-body { padding: 18px 20px 22px; }
-    .feature h3 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
-    .feature p { color: var(--text-muted); font-size: 0.86rem; line-height: 1.55; }
-
-    /* Proof — compact stats row, no big photo */
-    .proof { text-align: center; padding: 56px 0 48px; }
-    .proof h2 { margin-bottom: 8px; }
-    .proof .subtitle { margin: 0 auto 32px; }
-    .stats {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-    .stat {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px 32px;
-      min-width: 170px;
-    }
-    .stat-value { font-size: 2rem; font-weight: 800; color: var(--accent); line-height: 1; }
-    .stat-label { color: var(--text-muted); font-size: 0.8rem; font-weight: 500; margin-top: 6px; }
-
-    /* Final CTA — split with image */
-    .final-cta { padding: 56px 0 80px; }
-    .cta-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 40px 44px;
-    }
-    .cta-copy h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 10px; }
-    .cta-copy p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 22px; }
-    .cta-image {
-      border-radius: var(--radius);
-      overflow: hidden;
-      aspect-ratio: 16 / 9;
-      background: var(--bg-secondary);
-    }
-    .cta-image img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-
-    /* Footer */
-    footer {
-      padding: 24px 0;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.8rem;
-    }
-    .footer-links {
-      margin-top: 10px;
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    footer a { color: var(--text-muted); text-decoration: none; }
-    footer a:hover { color: var(--text); }
-
     @media (max-width: 860px) {
-      .hero { padding: 40px 0 32px; }
-      .hero-grid { grid-template-columns: 1fr; gap: 28px; }
-      .hero-image { order: -1; aspect-ratio: 16 / 10; }
-      .steps { grid-template-columns: 1fr; gap: 22px; }
-      .feature-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
-      .cta-grid { grid-template-columns: 1fr; padding: 28px; }
-      .cta-image { order: -1; }
-      .stats { gap: 14px; }
-      .stat { min-width: 0; flex: 1; padding: 18px 12px; }
       .nav-links { display: none; }
-      section { padding: 40px 0; }
-      .feature-body { padding: 14px 14px 18px; }
-      .feature h3 { font-size: 0.92rem; }
-      .feature p { font-size: 0.78rem; }
-      section h2 { font-size: 1.5rem; }
+      section { padding: 64px 0; }
+      .hero { padding: 48px 0 24px; }
+      .hero .rings { right: -340px; top: -340px; opacity: .3; }
+      .who-grid { grid-template-columns: 1fr; }
+      .kpis { grid-template-columns: repeat(2, 1fr); }
+      .dash-body { grid-template-columns: 1fr; }
+      .why-list { grid-template-columns: 1fr; }
     }
-
-    @media (max-width: 460px) {
-      .hero h1 { font-size: 1.9rem; }
-      .feature p { display: none; }
-      .feature-body { padding: 12px 12px 16px; }
+    @media (max-width: 600px) {
+      .container { padding: 0 16px; }
+      nav.top .container { height: 60px; }
+      .logo { font-size: 1.25rem; }
+      .lang-btn { padding: 5px 8px; }
+      .nav-cta { padding: 8px 12px; font-size: .78rem; }
+      .nav-right { gap: 10px; }
+      .hero h1 { font-size: 2.35rem; }
+      .collage { min-height: 0; display: flex; flex-direction: column; gap: 16px; }
+      .collage .photo { position: relative; width: 100%; transform: rotate(0); padding: 8px; }
+      .collage .phone-wrap { position: relative; bottom: auto; width: 100%; max-width: 320px; transform: none; margin: -40px auto 0; }
+      .collage .ticket { position: relative; right: auto; bottom: auto; width: 100%; max-width: 320px; margin: 0 auto; transform: none !important; }
+      .collage .link-line { display: none; }
+      .feat-grid { grid-template-columns: 1fr; }
+      .feat-photo { min-height: 200px; }
+      .chapters { padding-left: 46px; }
+      .chapter .dot { left: -46px; width: 30px; height: 30px; }
+      .chapters .rail { left: 14px; }
+      .cta-box { padding: 24px 20px; border-radius: 20px; }
+      .btn { padding: 13px 18px; font-size: .9rem; }
+      .hero-actions .btn { width: 100%; justify-content: center; }
+      .cta-actions .btn { width: 100%; justify-content: center; }
+      footer .container { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 400px) {
+      .hero h1 { font-size: 2.05rem; }
+      .kpis { grid-template-columns: 1fr 1fr; }
+      .chamber { grid-template-columns: auto 1fr 40px; }
+      .dash-bar .tabs span:last-child { display: none; }
+      .logo { font-size: 1.1rem; gap: 6px; } .logo svg { width: 24px; height: 24px; }
+      .nav-right { gap: 8px; }
+      .lang-btn { padding: 4px 6px; font-size: .66rem; }
+      .nav-cta { padding: 7px 10px; font-size: .74rem; }
     }
   </style>
 </head>
 <body>
 
-  <nav>
+  <!-- SVG symbol defs -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-tree" viewBox="0 0 64 64"><g fill="currentColor"><path d="M32 6 44 26 32 21 20 26Z"/><path d="M32 24 48 38 32 32 16 38Z"/><path d="M32 35 52 49Q32 47 12 49Z"/><rect x="29" y="48" width="6" height="10" rx="1"/></g></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></g></symbol>
+      <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm0 18.15a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.17.24-.64.8-.78.97-.15.16-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.29Z"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-mic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v4M8 21h8"/></g></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z" fill="currentColor"/></symbol>
+      <symbol id="i-truck" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></g></symbol>
+      <symbol id="i-forest" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3l5 8h-3l4 6H2l4-6H3zM13 11h3l-3-5"/><path d="M16 7l3 4h-2l3 4h-6"/><path d="M8 17v4M18 15v6"/></g></symbol>
+      <symbol id="i-saw" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></g></symbol>
+      <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 22c4.4 0 7-2.9 7-6.6 0-3.2-2-5.1-3.3-6.6-.5 1.3-1.3 2.1-2.2 2.4C13.8 8.5 13 5.5 10.5 3c-.2 3.2-2.1 4.6-3.6 6.4C5.6 10.9 5 12.6 5 14.9 5 18.9 7.9 22 12 22z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 8l10 5 10-5z"/><path d="m2 13 10 5 10-5M2 18l10 5 10-5"/></g></symbol>
+      <symbol id="i-box" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></g></symbol>
+      <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0 5 5L22 14l-5 5-2.7-2.3a4 4 0 0 0-5-5L3 5l2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-doc" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h6"/></g></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-8 8H8l-5 3 1.5-5A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></g></symbol>
+      <symbol id="i-qr" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v2M17 20h4M14 20v1"/></g></symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></g></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g></symbol>
+      <symbol id="i-hat" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18M5 17a7 7 0 0 1 14 0"/><path d="M10 10V6h4v4"/></g></symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></g></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+      <!-- tree rings -->
+      <symbol id="rings" viewBox="0 0 400 400">
+        <g fill="none" stroke="#b8763b" stroke-width="1.2" stroke-linecap="round">
+          <ellipse cx="200" cy="200" rx="14" ry="12"/><ellipse cx="201" cy="199" rx="30" ry="27" stroke-width="2"/><ellipse cx="199" cy="201" rx="46" ry="43"/>
+          <ellipse cx="202" cy="198" rx="63" ry="58" stroke-width="1.8"/><ellipse cx="198" cy="202" rx="80" ry="76"/><ellipse cx="203" cy="199" rx="97" ry="92" stroke-width="2.4"/>
+          <ellipse cx="197" cy="203" rx="114" ry="109"/><ellipse cx="202" cy="197" rx="131" ry="126" stroke-width="1.6"/><ellipse cx="199" cy="202" rx="148" ry="143"/>
+          <ellipse cx="203" cy="200" rx="165" ry="159" stroke-width="2.6"/><ellipse cx="198" cy="199" rx="182" ry="176"/><ellipse cx="200" cy="201" rx="196" ry="192" stroke-width="3"/>
+        </g>
+      </symbol>
+    </defs>
+  </svg>
+
+  <nav class="top">
     <div class="container">
-      <a href="/" class="logo">
-        <img src="timberly-logo.png" alt="Timberly" style="height:72px;width:auto;margin:-14px 0;">
+      <a href="#top" class="logo" aria-label="Timberly">
+        <svg style="color:var(--teal-ink)"><use href="#i-tree"/></svg>
+        <span>Timberly</span>
       </a>
       <div class="nav-right">
         <div class="nav-links">
-          <a href="#how" data-i18n="nav_how"></a>
+          <a href="#journey" data-i18n="nav_journey"></a>
+          <a href="#dashboard" data-i18n="nav_dashboard"></a>
           <a href="#features" data-i18n="nav_features"></a>
         </div>
-        <div class="lang-switcher">
-          <button class="lang-btn" data-lang="en">EN</button>
+        <div class="lang-switcher" role="group" aria-label="Language">
           <button class="lang-btn" data-lang="es">ES</button>
+          <button class="lang-btn" data-lang="en">EN</button>
           <button class="lang-btn" data-lang="pt">PT</button>
         </div>
-        <a href="https://app.timber.to" class="nav-cta" data-i18n="nav_cta"></a>
+        <a href="https://app.timber.to" class="btn btn-primary nav-cta" data-i18n="nav_cta"></a>
       </div>
     </div>
   </nav>
 
-  <section class="hero">
+  <!-- ========== HERO ========== -->
+  <header class="hero" id="top">
+    <svg class="rings" aria-hidden="true"><use href="#rings"/></svg>
     <div class="container">
       <div class="hero-grid">
         <div class="hero-copy">
-          <span class="hero-badge" data-i18n="hero_badge"></span>
+          <span class="eyebrow" data-i18n="hero_eyebrow"></span>
           <h1 data-i18n-html="hero_title"></h1>
           <p class="slogan" data-i18n="hero_slogan"></p>
-          <ul class="hero-bullets">
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span data-i18n="hero_bullet1"></span>
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span data-i18n="hero_bullet2"></span>
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span data-i18n="hero_bullet3"></span>
-            </li>
-          </ul>
           <div class="hero-actions">
-            <a href="mailto:info@timber.to?subject=Timberly%20%E2%80%94%20demo%20%2F%20pruebas" class="btn-primary">
-              <span data-i18n="hero_cta"></span>
-              <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </a>
-            <a href="#how" class="btn-secondary" data-i18n="hero_how"></a>
+            <a href="https://app.timber.to" class="btn btn-teal"><span data-i18n="hero_cta"></span><svg><use href="#i-arrow"/></svg></a>
+            <a href="#journey" class="btn btn-ghost" data-i18n="hero_cta2"></a>
+          </div>
+          <div class="chips">
+            <span class="chip"><svg><use href="#i-check"/></svg><span data-i18n="hero_chip1"></span></span>
+            <span class="chip"><svg><use href="#i-check"/></svg><span data-i18n="hero_chip2"></span></span>
+            <span class="chip"><svg><use href="#i-check"/></svg><span data-i18n="hero_chip3"></span></span>
           </div>
         </div>
-        <div class="hero-image">
-          <img src="images/hero.jpg" alt="Timberly dashboard in a Misiones sawmill workshop" loading="eager">
+
+        <div class="collage" id="collage">
+          <figure class="photo">
+            <img src="/images/step-1-message.jpg" alt="" loading="eager">
+            <figcaption data-i18n="hero_caption"></figcaption>
+          </figure>
+          <svg class="link-line" viewBox="0 0 190 80" aria-hidden="true"><path d="M4 76 C 60 70, 90 10, 186 6"/></svg>
+          <div class="phone-wrap">
+            <div class="phone">
+              <div class="phone-inner">
+                <div class="phone-top">
+                  <div class="avatar"><svg style="color:#072b1f"><use href="#i-tree"/></svg></div>
+                  <div><b>Timberly</b><span data-i18n="phone_status"></span></div>
+                </div>
+                <div class="phone-screen hero-chat" id="heroChat" data-state="0">
+                  <div class="msg out voice st s0">
+                    <span class="play"><svg><use href="#i-play"/></svg></span>
+                    <span class="wave"><i style="--h:30%"></i><i style="--h:60%"></i><i style="--h:85%"></i><i style="--h:50%"></i><i style="--h:95%"></i><i style="--h:40%"></i><i style="--h:70%"></i><i style="--h:35%"></i><i style="--h:80%"></i><i style="--h:55%"></i><i style="--h:30%"></i><i style="--h:65%"></i><i style="--h:90%"></i><i style="--h:45%"></i><i style="--h:25%"></i><i style="--h:60%"></i><i style="--h:40%"></i></span>
+                    <span class="dur">0:07</span>
+                  </div>
+                  <div class="msg typing st s1"><i></i><i></i><i></i></div>
+                  <div class="msg st s2" data-i18n-html="hc_reply"></div>
+                </div>
+                <div class="phone-input"><div class="fake"></div><span class="mic"><svg><use href="#i-mic"/></svg></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="ticket">
+            <div class="t-head"><b>A7K3</b><span data-i18n="hc_ticket_kind"></span></div>
+            <div class="row"><span data-i18n="tk_species"></span><span data-i18n="hc_v_species"></span></div>
+            <div class="row"><span data-i18n="tk_dim"></span><span>1×6×12</span></div>
+            <div class="row"><span data-i18n="tk_pieces"></span><span>120</span></div>
+            <div class="row"><span data-i18n="tk_stage"></span><span data-i18n="hc_v_stage"></span></div>
+            <div class="row"><span data-i18n="tk_yield"></span><span>212 pies²/tn</span></div>
+            <div class="row"><span data-i18n="tk_operator"></span><span data-i18n="hc_v_operator"></span></div>
+            <span class="stamp" data-i18n="tk_stamp"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== WHO ========== -->
+  <section class="who" id="who">
+    <div class="container">
+      <div class="section-head rv">
+        <span class="eyebrow" data-i18n="who_label"></span>
+        <h2 data-i18n-html="who_title"></h2>
+        <p data-i18n="who_sub"></p>
+      </div>
+      <div class="who-grid">
+        <div class="who-card rv">
+          <svg class="grain" aria-hidden="true"><use href="#rings"/></svg>
+          <div class="role"><svg><use href="#i-eye"/></svg><span data-i18n="who1_role"></span></div>
+          <h3 data-i18n="who1_title"></h3>
+          <p data-i18n="who1_text"></p>
+        </div>
+        <div class="who-card rv d1">
+          <svg class="grain" aria-hidden="true"><use href="#rings"/></svg>
+          <div class="role"><svg><use href="#i-hat"/></svg><span data-i18n="who2_role"></span></div>
+          <h3 data-i18n="who2_title"></h3>
+          <p data-i18n="who2_text"></p>
+        </div>
+        <div class="who-card rv d2">
+          <svg class="grain" aria-hidden="true"><use href="#rings"/></svg>
+          <div class="role"><svg><use href="#i-mic"/></svg><span data-i18n="who3_role"></span></div>
+          <h3 data-i18n="who3_title"></h3>
+          <p data-i18n="who3_text"></p>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="how">
+  <!-- ========== JOURNEY ========== -->
+  <section class="journey" id="journey">
     <div class="container">
-      <p class="section-label" data-i18n="how_label"></p>
-      <h2 data-i18n="how_title"></h2>
-      <p class="subtitle" data-i18n="how_subtitle"></p>
-      <div class="steps">
-        <div class="step">
-          <img class="step-image" src="images/step-1-message.jpg" alt="" loading="lazy">
-          <div class="step-body">
-            <div class="step-number">1</div>
-            <h3 data-i18n="step1_title"></h3>
-            <p data-i18n="step1_text"></p>
+      <div class="section-head rv">
+        <span class="eyebrow" data-i18n="j_label"></span>
+        <h2 data-i18n-html="j_title"></h2>
+        <p data-i18n="j_sub"></p>
+      </div>
+      <div class="journey-grid">
+        <div class="chapters" id="chapters">
+          <div class="rail"><i id="rail"></i></div>
+
+          <!-- 1 Monte -->
+          <article class="chapter" data-step="1">
+            <span class="dot">01</span>
+            <div class="stage"><svg><use href="#i-forest"/></svg><span data-i18n="j1_stage"></span></div>
+            <h3 data-i18n="j1_title"></h3>
+            <p data-i18n="j1_text"></p>
+            <div class="chat">
+              <div class="msg out photo" style="--i:0"><div class="doc"></div><div class="cap" data-i18n="j1_m1"></div><span class="time">07:20</span></div>
+              <div class="msg" style="--i:1" data-i18n-html="j1_m2"></div>
+              <div class="btns" style="--i:2"><span class="sel" data-i18n="btn_yes"></span><span data-i18n="btn_fix"></span></div>
+            </div>
+            <div class="ticket">
+              <div class="t-head"><b data-i18n="j1_id"></b><span class="note-label" data-i18n="j_note"></span></div>
+              <div class="row"><span data-i18n="j1_r1k"></span><span data-i18n="j1_r1v"></span></div>
+              <div class="row"><span data-i18n="j1_r2k"></span><span data-i18n="j1_r2v"></span></div>
+              <div class="row"><span data-i18n="j1_r3k"></span><span data-i18n="j1_r3v"></span></div>
+              <div class="row"><span data-i18n="j1_r4k"></span><span data-i18n="j1_r4v"></span></div>
+            </div>
+          </article>
+
+          <!-- 2 Recepción -->
+          <article class="chapter" data-step="2">
+            <span class="dot">02</span>
+            <div class="stage"><svg><use href="#i-truck"/></svg><span data-i18n="j2_stage"></span></div>
+            <h3 data-i18n="j2_title"></h3>
+            <p data-i18n="j2_text"></p>
+            <div class="chat">
+              <div class="msg out voice" style="--i:0"><span class="play"><svg><use href="#i-play"/></svg></span><span class="wave"><i style="--h:40%"></i><i style="--h:70%"></i><i style="--h:50%"></i><i style="--h:90%"></i><i style="--h:60%"></i><i style="--h:35%"></i><i style="--h:80%"></i><i style="--h:45%"></i><i style="--h:65%"></i><i style="--h:30%"></i><i style="--h:75%"></i><i style="--h:55%"></i><i style="--h:40%"></i></span><span class="dur">0:09</span><span class="transcript" data-i18n="j2_m1"></span></div>
+              <div class="msg" style="--i:1" data-i18n-html="j2_m2"></div>
+              <div class="msg out photo" style="--i:2"><div class="doc"><img src="/images/feat-whatsapp.jpg" alt="" loading="lazy" style="opacity:.0"></div><div class="cap" data-i18n="j2_m3"></div><span class="time">08:14</span></div>
+              <div class="msg" style="--i:3" data-i18n-html="j2_m4"></div>
+              <div class="btns" style="--i:4"><span class="sel" data-i18n="btn_confirm"></span><span data-i18n="btn_fix"></span></div>
+            </div>
+            <div class="ticket">
+              <div class="t-head"><b>R-418</b><span class="note-label" data-i18n="j_note"></span></div>
+              <div class="row"><span data-i18n="j2_r1k"></span><span data-i18n="j2_r1v"></span></div>
+              <div class="row"><span data-i18n="j2_r2k"></span><span>28,4 tn · 146</span></div>
+              <div class="row"><span data-i18n="j2_r3k"></span><span data-i18n="j2_r3v"></span></div>
+              <div class="row"><span data-i18n="j2_r4k"></span><span data-i18n="j2_r4v"></span></div>
+            </div>
+          </article>
+
+          <!-- 3 Corte -->
+          <article class="chapter" data-step="3">
+            <span class="dot">03</span>
+            <div class="stage"><svg><use href="#i-saw"/></svg><span data-i18n="j3_stage"></span></div>
+            <h3 data-i18n="j3_title"></h3>
+            <p data-i18n="j3_text"></p>
+            <div class="chat">
+              <div class="msg out" style="--i:0"><span data-i18n="j3_m1"></span><span class="time">07:02</span></div>
+              <div class="msg" style="--i:1" data-i18n-html="j3_m2"></div>
+              <div class="msg out voice" style="--i:2"><span class="play"><svg><use href="#i-play"/></svg></span><span class="wave"><i style="--h:30%"></i><i style="--h:60%"></i><i style="--h:85%"></i><i style="--h:50%"></i><i style="--h:95%"></i><i style="--h:40%"></i><i style="--h:70%"></i><i style="--h:35%"></i><i style="--h:80%"></i><i style="--h:55%"></i><i style="--h:30%"></i><i style="--h:65%"></i><i style="--h:45%"></i></span><span class="dur">0:06</span><span class="transcript" data-i18n="j3_m3"></span></div>
+              <div class="msg" style="--i:3" data-i18n-html="j3_m4"></div>
+            </div>
+            <div class="ticket">
+              <div class="t-head"><b>A7K3</b><span class="note-label" data-i18n="j_note"></span></div>
+              <div class="row"><span data-i18n="j3_r1k"></span><span data-i18n="j3_r1v"></span></div>
+              <div class="row"><span data-i18n="j3_r2k"></span><span data-i18n="j3_r2v"></span></div>
+              <div class="row"><span data-i18n="j3_r3k"></span><span>212 pies²/tn</span></div>
+              <div class="row"><span data-i18n="j3_r4k"></span><span data-i18n="j3_r4v"></span></div>
+            </div>
+          </article>
+
+          <!-- 4 Secado -->
+          <article class="chapter" data-step="4">
+            <span class="dot">04</span>
+            <div class="stage"><svg><use href="#i-flame"/></svg><span data-i18n="j4_stage"></span></div>
+            <h3 data-i18n="j4_title"></h3>
+            <p data-i18n="j4_text"></p>
+            <div class="chat">
+              <div class="msg out" style="--i:0"><span data-i18n="j4_m1"></span><span class="time">16:40</span></div>
+              <div class="msg" style="--i:1" data-i18n-html="j4_m2"></div>
+              <div class="msg alert" style="--i:2" data-i18n-html="j4_m3"></div>
+              <div class="btns" style="--i:3"><span class="sel" data-i18n="btn_close"></span><span data-i18n="btn_extend"></span></div>
+              <div class="msg out" style="--i:4"><span data-i18n="j4_m4"></span><span class="time">17:05</span></div>
+              <div class="msg" style="--i:5" data-i18n-html="j4_m5"></div>
+            </div>
+            <div class="ticket">
+              <div class="t-head"><b data-i18n="j4_id"></b><span class="note-label" data-i18n="j_note"></span></div>
+              <div class="row"><span data-i18n="j4_r1k"></span><span data-i18n="j4_r1v"></span></div>
+              <div class="row"><span data-i18n="j4_r2k"></span><span>48 h</span></div>
+              <div class="row"><span data-i18n="j4_r3k"></span><span>38% → 12%</span></div>
+              <div class="row"><span data-i18n="j4_r4k"></span><span data-i18n="j4_r4v"></span></div>
+            </div>
+          </article>
+
+          <!-- 5 Clasificación / remanufactura -->
+          <article class="chapter" data-step="5">
+            <span class="dot">05</span>
+            <div class="stage"><svg><use href="#i-layers"/></svg><span data-i18n="j5_stage"></span></div>
+            <h3 data-i18n="j5_title"></h3>
+            <p data-i18n="j5_text"></p>
+            <div class="chat">
+              <div class="msg out" style="--i:0"><span data-i18n="j5_m1"></span><span class="time">09:31</span></div>
+              <div class="msg" style="--i:1" data-i18n-html="j5_m2"></div>
+              <div class="msg out" style="--i:2"><span data-i18n="j5_m3"></span><span class="time">11:50</span></div>
+              <div class="msg" style="--i:3" data-i18n-html="j5_m4"></div>
+            </div>
+            <div class="ticket">
+              <div class="t-head"><b>A7K3 · A7K3-2</b><span class="note-label" data-i18n="j_note"></span></div>
+              <div class="row"><span data-i18n="j5_r1k"></span><span data-i18n="j5_r1v"></span></div>
+              <div class="row"><span data-i18n="j5_r2k"></span><span data-i18n="j5_r2v"></span></div>
+              <div class="row"><span data-i18n="j5_r3k"></span><span data-i18n="j5_r3v"></span></div>
+              <div class="row"><span data-i18n="j5_r4k"></span><span data-i18n="j5_r4v"></span></div>
+            </div>
+          </article>
+
+          <!-- 6 Despacho -->
+          <article class="chapter" data-step="6">
+            <span class="dot">06</span>
+            <div class="stage"><svg><use href="#i-box"/></svg><span data-i18n="j6_stage"></span></div>
+            <h3 data-i18n="j6_title"></h3>
+            <p data-i18n="j6_text"></p>
+            <div class="chat">
+              <div class="msg out" style="--i:0"><span data-i18n="j6_m1"></span><span class="time">14:10</span></div>
+              <div class="msg" style="--i:1" data-i18n-html="j6_m2"></div>
+              <div class="msg out" style="--i:2"><span data-i18n="j6_m3"></span><span class="time">15:22</span></div>
+              <div class="msg" style="--i:3" data-i18n-html="j6_m4"></div>
+            </div>
+            <div class="ticket">
+              <div class="t-head"><b>D-77</b><span class="note-label" data-i18n="j_note"></span></div>
+              <div class="row"><span data-i18n="j6_r1k"></span><span>Maderas del Sur</span></div>
+              <div class="row"><span data-i18n="j6_r2k"></span><span data-i18n="j6_r2v"></span></div>
+              <div class="row"><span data-i18n="j6_r3k"></span><span>1.440 pies²</span></div>
+              <div class="row"><span data-i18n="j6_r4k"></span><span class="mono">timber.to/t/…/A7K3</span></div>
+            </div>
+          </article>
+        </div>
+
+        <aside class="phone-sticky" aria-hidden="true">
+          <div class="phone">
+            <div class="phone-inner">
+              <div class="phone-top">
+                <div class="avatar"><svg style="color:#072b1f"><use href="#i-tree"/></svg></div>
+                <div><b>Timberly</b><span data-i18n="phone_status"></span></div>
+              </div>
+              <div class="phone-screen" id="phoneScreen"></div>
+              <div class="phone-input"><div class="fake"></div><span class="mic"><svg><use href="#i-mic"/></svg></span></div>
+            </div>
+          </div>
+          <p class="phone-caption" id="phoneCaption"></p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== DASHBOARD ========== -->
+  <section id="dashboard">
+    <div class="container">
+      <div class="dash-wrap">
+        <div class="rv">
+          <span class="eyebrow" data-i18n="dash_label"></span>
+          <h2 style="font-size:clamp(1.9rem,3.6vw,2.8rem);margin:14px 0 14px" data-i18n-html="dash_title"></h2>
+          <p style="color:var(--ink-2);font-size:1.05rem" data-i18n="dash_sub"></p>
+          <div class="dash-points">
+            <div class="point"><div class="ic"><svg><use href="#i-grid"/></svg></div><div><b data-i18n="d_b1t"></b><span data-i18n="d_b1"></span></div></div>
+            <div class="point"><div class="ic"><svg><use href="#i-chat"/></svg></div><div><b data-i18n="d_b2t"></b><span data-i18n="d_b2"></span></div></div>
+            <div class="point"><div class="ic"><svg><use href="#i-bell"/></svg></div><div><b data-i18n="d_b3t"></b><span data-i18n="d_b3"></span></div></div>
+            <div class="point"><div class="ic"><svg><use href="#i-download"/></svg></div><div><b data-i18n="d_b4t"></b><span data-i18n="d_b4"></span></div></div>
           </div>
         </div>
-        <div class="step">
-          <img class="step-image" src="images/step-2-ai.jpg" alt="" loading="lazy">
-          <div class="step-body">
-            <div class="step-number">2</div>
-            <h3 data-i18n="step2_title"></h3>
-            <p data-i18n="step2_text"></p>
+
+        <div class="dash rv d1" role="img" aria-label="Timberly dashboard">
+          <div class="dash-bar">
+            <span class="logo"><svg style="color:var(--teal-ink)"><use href="#i-tree"/></svg>Timberly</span>
+            <div class="tabs"><span class="on" data-i18n="d_tab1"></span><span data-i18n="d_tab2"></span><span data-i18n="d_tab3"></span><span data-i18n="d_tab4"></span></div>
           </div>
-        </div>
-        <div class="step">
-          <img class="step-image" src="images/step-3-dashboard.jpg" alt="" loading="lazy">
-          <div class="step-body">
-            <div class="step-number">3</div>
-            <h3 data-i18n="step3_title"></h3>
-            <p data-i18n="step3_text"></p>
+          <div class="dash-body">
+            <div class="kpis">
+              <div class="kpi"><span data-i18n="d_k1"></span><b>3.240 <small data-i18n="d_k1u"></small></b></div>
+              <div class="kpi"><span data-i18n="d_k2"></span><b>1.860 <small data-i18n="d_k1u"></small></b></div>
+              <div class="kpi"><span data-i18n="d_k3"></span><b>2 / 3</b></div>
+              <div class="kpi"><span data-i18n="d_k4"></span><b>3 <small>· 56,2 tn</small></b></div>
+            </div>
+            <div class="card">
+              <h4><span style="color:var(--ink);font-weight:600" data-i18n="d_chart"></span><span data-i18n="d_chart_u"></span></h4>
+              <div class="chart">
+                <div class="bar"><em>18</em><i style="--v:62%"></i></div>
+                <div class="bar"><em>26</em><i style="--v:90%"></i></div>
+                <div class="bar"><em>21</em><i style="--v:72%"></i></div>
+                <div class="bar"><em>24</em><i style="--v:83%"></i></div>
+                <div class="bar"><em>9</em><i style="--v:31%"></i></div>
+              </div>
+              <div class="chart-x"><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span data-i18n="d_today"></span></div>
+            </div>
+            <div class="card">
+              <h4><span style="color:var(--ink);font-weight:600" data-i18n="d_chambers"></span></h4>
+              <div class="chambers">
+                <div class="chamber"><span data-i18n="d_ch1"></span><div class="bar"><i style="--v:74%"></i></div><span class="mono">12 h</span></div>
+                <div class="chamber"><span data-i18n="d_ch2"></span><div class="bar"><i class="hot" style="--v:100%"></i></div><span class="mono" data-i18n="d_due"></span></div>
+                <div class="chamber"><span data-i18n="d_ch3"></span><div class="bar"><i style="--v:0%"></i></div><span class="mono" data-i18n="d_empty"></span></div>
+              </div>
+              <h4 style="margin-top:12px"><span style="color:var(--ink);font-weight:600" data-i18n="d_alerts"></span></h4>
+              <div class="alerts">
+                <div class="alert-row"><i></i><span data-i18n="d_a1"></span></div>
+                <div class="alert-row"><i class="bad"></i><span data-i18n="d_a2"></span></div>
+                <div class="alert-row"><i class="ok"></i><span data-i18n="d_a3"></span></div>
+              </div>
+            </div>
+            <div class="card advisor">
+              <h4><span style="color:var(--ink);font-weight:600" data-i18n="d_adv"></span></h4>
+              <div class="q" data-i18n="d_q"></div>
+              <div class="a"><span data-i18n="d_a"></span><br><span class="export"><svg><use href="#i-download"/></svg><span data-i18n="d_export"></span></span></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="features">
+  <!-- ========== FEATURES ========== -->
+  <section id="features" style="padding-top:40px">
     <div class="container">
-      <p class="section-label" data-i18n="feat_label"></p>
-      <h2 data-i18n="feat_title"></h2>
-      <p class="subtitle" data-i18n="feat_subtitle"></p>
-      <div class="feature-grid">
-        <div class="feature">
-          <img class="feature-image" src="images/feat-stock.jpg" alt="" loading="lazy">
-          <div class="feature-body">
-            <h3 data-i18n="f1_title"></h3>
-            <p data-i18n="f1_text"></p>
-          </div>
+      <div class="section-head rv">
+        <span class="eyebrow" data-i18n="feat_label"></span>
+        <h2 data-i18n-html="feat_title"></h2>
+        <p data-i18n="feat_sub"></p>
+      </div>
+      <div class="feat-grid">
+        <div class="feat rv"><div class="ic"><svg><use href="#i-truck"/></svg></div><h3 data-i18n="f1_title"></h3><p data-i18n="f1_text"></p><span class="tag" data-i18n="f1_tag"></span></div>
+        <div class="feat rv d1"><div class="ic"><svg><use href="#i-saw"/></svg></div><h3 data-i18n="f2_title"></h3><p data-i18n="f2_text"></p><span class="tag" data-i18n="f2_tag"></span></div>
+        <div class="feat rv d2"><div class="ic"><svg><use href="#i-flame"/></svg></div><h3 data-i18n="f3_title"></h3><p data-i18n="f3_text"></p><span class="tag" data-i18n="f3_tag"></span></div>
+        <div class="feat rv"><div class="ic"><svg><use href="#i-layers"/></svg></div><h3 data-i18n="f4_title"></h3><p data-i18n="f4_text"></p><span class="tag" data-i18n="f4_tag"></span></div>
+        <figure class="feat-photo rv d1"><img src="/images/feat-trace.jpg" alt="" loading="lazy"><figcaption data-i18n="feat_photo_cap"></figcaption></figure>
+        <div class="feat rv d2"><div class="ic"><svg><use href="#i-qr"/></svg></div><h3 data-i18n="f5_title"></h3><p data-i18n="f5_text"></p><span class="tag" data-i18n="f5_tag"></span></div>
+        <div class="feat rv"><div class="ic"><svg><use href="#i-wrench"/></svg></div><h3 data-i18n="f6_title"></h3><p data-i18n="f6_text"></p><span class="tag" data-i18n="f6_tag"></span></div>
+        <div class="feat rv d1"><div class="ic"><svg><use href="#i-doc"/></svg></div><h3 data-i18n="f7_title"></h3><p data-i18n="f7_text"></p><span class="tag" data-i18n="f7_tag"></span></div>
+        <div class="feat rv d2"><div class="ic"><svg><use href="#i-chat"/></svg></div><h3 data-i18n="f8_title"></h3><p data-i18n="f8_text"></p><span class="tag" data-i18n="f8_tag"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== WHY ========== -->
+  <section class="why" id="why">
+    <svg class="rings" aria-hidden="true"><use href="#rings"/></svg>
+    <div class="container">
+      <div class="section-head rv">
+        <span class="eyebrow" data-i18n="why_label"></span>
+        <h2 style="color:#fff" data-i18n-html="why_title"></h2>
+        <p data-i18n="why_sub"></p>
+      </div>
+      <div class="why-grid">
+        <div class="why-list">
+          <div class="why-item rv"><span class="n">01</span><h3 data-i18n="why1_title"></h3><p data-i18n="why1_text"></p></div>
+          <div class="why-item rv d1"><span class="n">02</span><h3 data-i18n="why2_title"></h3><p data-i18n="why2_text"></p></div>
+          <div class="why-item rv d2"><span class="n">03</span><h3 data-i18n="why3_title"></h3><p data-i18n="why3_text"></p></div>
+          <div class="why-item rv d3"><span class="n">04</span><h3 data-i18n="why4_title"></h3><p data-i18n="why4_text"></p></div>
         </div>
-        <div class="feature">
-          <img class="feature-image" src="images/feat-yield.jpg" alt="" loading="lazy">
-          <div class="feature-body">
-            <h3 data-i18n="f2_title"></h3>
-            <p data-i18n="f2_text"></p>
-          </div>
-        </div>
-        <div class="feature">
-          <img class="feature-image" src="images/feat-orders.jpg" alt="" loading="lazy">
-          <div class="feature-body">
-            <h3 data-i18n="f3_title"></h3>
-            <p data-i18n="f3_text"></p>
-          </div>
-        </div>
-        <div class="feature">
-          <img class="feature-image" src="images/feat-whatsapp.jpg" alt="" loading="lazy">
-          <div class="feature-body">
-            <h3 data-i18n="f4_title"></h3>
-            <p data-i18n="f4_text"></p>
-          </div>
-        </div>
-        <div class="feature">
-          <img class="feature-image" src="images/feat-ai.jpg" alt="" loading="lazy">
-          <div class="feature-body">
-            <h3 data-i18n="f5_title"></h3>
-            <p data-i18n="f5_text"></p>
-          </div>
-        </div>
-        <div class="feature">
-          <img class="feature-image" src="images/feat-trace.jpg" alt="" loading="lazy">
-          <div class="feature-body">
-            <h3 data-i18n="f6_title"></h3>
-            <p data-i18n="f6_text"></p>
-          </div>
+        <div class="no-card rv d2">
+          <h3 data-i18n="no_title"></h3>
+          <ul>
+            <li><svg><use href="#i-x"/></svg><span data-i18n="no1"></span></li>
+            <li><svg><use href="#i-x"/></svg><span data-i18n="no2"></span></li>
+            <li><svg><use href="#i-x"/></svg><span data-i18n="no3"></span></li>
+            <li><svg><use href="#i-x"/></svg><span data-i18n="no4"></span></li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="final-cta">
+  <!-- ========== CTA ========== -->
+  <section class="cta">
     <div class="container">
-      <div class="cta-grid">
-        <div class="cta-copy">
-          <h2 data-i18n="cta_title"></h2>
+      <div class="cta-box rv">
+        <div>
+          <span class="eyebrow" data-i18n="cta_label"></span>
+          <h2 data-i18n-html="cta_title"></h2>
           <p data-i18n="cta_sub"></p>
-          <a href="mailto:info@timber.to?subject=Timberly%20%E2%80%94%20demo%20%2F%20pruebas" class="btn-primary">
-            <span data-i18n="cta_btn"></span>
-            <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </a>
+          <div class="cta-actions">
+            <a href="https://wa.me/5493764705749" target="_blank" rel="noopener" class="btn btn-teal" data-wa><svg><use href="#i-wa"/></svg><span data-i18n="cta_wa"></span></a>
+            <a href="mailto:leandro@timber.to?subject=Timberly" class="btn btn-ghost" data-mail><svg><use href="#i-mail"/></svg><span data-i18n="cta_mail"></span></a>
+          </div>
         </div>
-        <div class="cta-image">
-          <img src="images/cta-product.jpg" alt="Timberly on phone and laptop" loading="lazy">
-        </div>
+        <div class="cta-img"><img src="/images/cta-product.jpg" alt="" loading="lazy"></div>
       </div>
     </div>
   </section>
 
   <footer>
     <div class="container">
-      <p data-i18n="footer"></p>
+      <p data-i18n-html="footer"></p>
       <div class="footer-links">
         <a href="https://www.youtube.com/@gettimberly" target="_blank" rel="noopener">YouTube</a>
         <a href="/privacy-policy.html" data-i18n="footer_privacy"></a>
@@ -599,197 +938,394 @@
 
   <script>
     const T = {
-      en: {
-        nav_how: "How it works",
-        nav_features: "Features",
-        nav_cta: "Sign in",
-        hero_badge: "Artificial Intelligence specialized in sawmills",
-        hero_title: 'From <span class="highlight">logs</span> to <span class="highlight">insights</span>.',
-        hero_slogan: "AI agents that run your sawmill operations — so you can focus on what matters.",
-        hero_bullet1: "Native WhatsApp — no new apps to learn",
-        hero_bullet2: "Real-time stock, yield and dispatch",
-        hero_bullet3: "Setup in minutes, no infrastructure",
-        hero_cta: "Contact us for a demo",
-        hero_how: "See how it works",
-        how_label: "How it works",
-        how_title: "From a WhatsApp voice note to your dashboard",
-        how_subtitle: "No new apps, no training, no change to how your operators work.",
-        step1_title: "Operator sends a message",
-        step1_text: "A voice note, text, or photo via WhatsApp. They talk the way they always do.",
-        step2_title: "AI extracts the data",
-        step2_text: "Timberly transcribes, interprets, and structures the information automatically.",
-        step3_title: "You see everything in real time",
-        step3_text: "Stock, yield, orders, costs. All in your dashboard, no spreadsheets.",
-        feat_label: "Features",
-        feat_title: "Everything you need to run the operation",
-        feat_subtitle: "Every module feeds from the data your operators already report.",
-        f1_title: "Real-time inventory",
-        f1_text: "Stock by species, dimension, and process stage. Always up to date.",
-        f2_title: "Yield and cost analysis",
-        f2_text: "Cost per board foot calculated automatically from real production data.",
-        f3_title: "Orders and dispatch",
-        f3_text: "Track production progress and dispatch when ready. Nothing falls through.",
-        f4_title: "Native WhatsApp",
-        f4_text: "Voice, text, photos. Timberly understands it all and turns it into data.",
-        f5_title: "AI advisor",
-        f5_text: "Ask what to prioritize, if an order is at risk, or how an operator performed.",
-        f6_title: "Full traceability",
-        f6_text: "From the log to dispatch. Every movement is recorded with operator and time.",
-        cta_title: "Optimize Your Sawmill with Artificial Intelligence",
-        cta_sub: "Trial, demo and trial period at no cost. Email us at info@timber.to.",
-        cta_btn: "Contact us for a demo",
-        footer: "&copy; 2026 Timberly. Made in Misiones, Argentina.",
-        footer_privacy: "Privacy Policy",
-        footer_terms: "Terms of Service",
-      },
+      /* ===================== ES ===================== */
       es: {
-        nav_how: "Cómo funciona",
-        nav_features: "Funcionalidades",
-        nav_cta: "Ingresar",
-        hero_badge: "Inteligencia Artificial especializada en aserraderos",
-        hero_title: 'De <span class="highlight">rollizos</span> a <span class="highlight">datos</span>.',
-        hero_slogan: "Agentes de IA que operan tu aserradero — para que vos te enfoques en lo que importa.",
-        hero_bullet1: "WhatsApp nativo — sin apps nuevas para aprender",
-        hero_bullet2: "Stock, rendimiento y despacho en tiempo real",
-        hero_bullet3: "Configuración en minutos, sin infraestructura",
-        hero_cta: "Contactate por una demo",
-        hero_how: "Ver cómo funciona",
-        how_label: "Cómo funciona",
-        how_title: "De un audio de WhatsApp a datos en tu dashboard",
-        how_subtitle: "Sin apps nuevas, sin capacitación, sin cambiar cómo trabajan tus operadores.",
-        step1_title: "El operador envía un mensaje",
-        step1_text: "Un audio, texto o foto por WhatsApp. Habla como habla siempre.",
-        step2_title: "La IA extrae los datos",
-        step2_text: "Timberly transcribe, interpreta y estructura la información automáticamente.",
-        step3_title: "Vos ves todo en tiempo real",
-        step3_text: "Stock, rendimiento, pedidos, costos. Todo en el dashboard, sin planillas.",
-        feat_label: "Funcionalidades",
-        feat_title: "Todo lo que necesitás para controlar la operación",
-        feat_subtitle: "Cada módulo se alimenta de los datos que tus operadores ya reportan.",
-        f1_title: "Stock en tiempo real",
-        f1_text: "Inventario por especie, dimensión y etapa de proceso. Siempre actualizado.",
-        f2_title: "Rendimiento y costos",
-        f2_text: "Costo por pie calculado automáticamente desde la producción real.",
-        f3_title: "Pedidos y despacho",
-        f3_text: "Seguí el avance y despachá cuando esté listo. Nada se pierde de vista.",
-        f4_title: "WhatsApp nativo",
-        f4_text: "Audios, texto, fotos. Timberly entiende todo y lo convierte en datos.",
-        f5_title: "Asesor inteligente",
-        f5_text: "Preguntale qué priorizar, si un pedido está en riesgo, o cómo rindió un operador.",
-        f6_title: "Trazabilidad completa",
-        f6_text: "Desde el rollizo hasta el despacho. Cada movimiento queda registrado.",
-        cta_title: "Optimizá tu Aserradero con Inteligencia Artificial",
-        cta_sub: "Pruebas, demo y período de prueba sin costo. Escribinos a info@timber.to.",
-        cta_btn: "Contactate por una demo",
-        footer: "&copy; 2026 Timberly. Hecho en Misiones, Argentina.",
-        footer_privacy: "Política de privacidad",
-        footer_terms: "Términos del servicio",
+        nav_journey: "El recorrido", nav_dashboard: "El tablero", nav_features: "Qué hace", nav_cta: "Ingresar",
+        hero_eyebrow: "Gestión de aserraderos por WhatsApp",
+        hero_title: 'El aserradero cuenta lo que pasa. <em>Timberly lo anota.</em>',
+        hero_slogan: "Tus operarios mandan un audio o una foto por WhatsApp, como siempre. Timberly lo convierte en recepciones, paquetes, secado, stock, despachos y trazabilidad. Sin planillas ni apps nuevas.",
+        hero_cta: "Entrar a Timberly", hero_cta2: "Ver el recorrido de un rollo",
+        hero_chip1: "Nada que instalar en el galpón", hero_chip2: "Audio, texto o foto", hero_chip3: "Pregunta cuando duda",
+        hero_caption: "Juan · sierra 1 · 10:42",
+        phone_status: "en línea",
+        hc_reply: "✅ Paquete <b>A7K3</b> listo. Pintá <b>A7K3</b> en el paquete.<br>Pino · 1×6×12 · 120 piezas · 120 piezas estándar.<br>Origen: R-418 (San Jorge). Rinde acumulado del turno: 212 pies²/tn 🟢<span class=\"time\">10:42</span>",
+        hc_ticket_kind: "Paquete", tk_species: "Especie", tk_dim: "Medida", tk_pieces: "Piezas", tk_stage: "Etapa", tk_yield: "Rinde turno", tk_operator: "Operario", tk_stamp: "anotado",
+        hc_v_species: "Pino", hc_v_stage: "Verde", hc_v_operator: "Juan · Sierra 1",
+
+        who_label: "Para quién", who_title: 'Hecho para la gente <em>del aserradero</em>',
+        who_sub: "Cada persona de la planta sigue trabajando como trabaja. Lo que cambia es que ahora todo queda anotado, en un solo lugar.",
+        who1_role: "Dueño o dueña", who1_title: "Ver el día sin llamar a nadie", who1_text: "Cuánto hay en verde, en seco y en cepillado. Qué cámara vence hoy. Qué camiones llegaron y qué salió. Desde el celular o la compu, con los números del día, no de la semana pasada.",
+        who2_role: "Encargado", who2_title: "Controlar la planta desde el celular", who2_text: "Qué paquetes cerró cada sierra, cuánto rindió el turno, qué máquina está parada y por qué. Las alertas llegan solas: una cámara que venció, un contador raro, un remito que no cierra.",
+        who3_role: "Operario", who3_title: "Hablar, no cargar formularios", who3_text: "Un audio cuando cierra un paquete. Una foto del remito cuando llega un camión. Timberly contesta en segundos, le dice qué número pintar en el paquete y le pregunta si falta algo.",
+
+        j_label: "El recorrido", j_title: 'Un rollo, del monte al cliente, <em>anotado paso a paso</em>',
+        j_sub: "Cada mensaje de WhatsApp se convierte en un registro con fecha, persona y paquete. Así se arma la trazabilidad, sin que nadie tenga que sentarse a cargar datos.",
+        j_note: "Lo que queda anotado", btn_yes: "Sí, es correcto", btn_fix: "Corregir", btn_confirm: "Confirmar 146", btn_close: "Cerrar secado", btn_extend: "Extender 6 h",
+
+        j1_stage: "Monte", j1_title: "Sale del monte con una foto", j1_text: "El encargado del monte saca una foto de la guía de salida. Timberly lee el lote, el campo, la patente y las toneladas, y abre el viaje antes de que el camión llegue a la planta.",
+        j1_m1: "📷 Guía de salida, lote 6-52", j1_m2: "📄 Salida registrada: <b>Lote 6-52</b> · Campo San Jorge · pino · 28 tn declaradas · camión AB 123 CD.<br>¿Está bien?<span class=\"time\">07:20</span>",
+        j1_id: "Salida 6-52", j1_r1k: "Lote / campo", j1_r1v: "6-52 · San Jorge", j1_r2k: "Especie", j1_r2v: "Pino", j1_r3k: "Camión", j1_r3v: "AB 123 CD", j1_r4k: "Declarado", j1_r4v: "28 tn",
+
+        j2_stage: "Recepción", j2_title: "Llega el camión", j2_text: "El operario de planchada avisa con un audio o manda la foto del remito. Timberly registra la recepción, cuenta los rollos de la foto del camión y compara contra lo que decía el remito.",
+        j2_m1: "“llegó el camión de San Jorge, remito 4523, pesó 28 con 4”", j2_m2: "✅ Camión recibido. Identificá estos rollos con el ID número <b>R-418</b>.<br>28,4 tn · Remito 4523<span class=\"time\">08:11</span>",
+        j2_m3: "📷 Foto del camión cargado", j2_m4: "Conté <b>146 rollos</b> en la foto. El remito dice 150. ¿Confirmás 146 o corregimos?<span class=\"time\">08:14</span>",
+        j2_r1k: "Proveedor / campo", j2_r1v: "San Jorge", j2_r2k: "Pesaje · rollos", j2_r3k: "Remito", j2_r3v: "4523 (dif. −4)", j2_r4k: "Operario", j2_r4v: "Marcos · 08:11",
+
+        j3_stage: "Corte", j3_title: "Se corta y se arman paquetes", j3_text: "El aserrador arranca el turno, dice qué rollos está cortando y cierra cada paquete con un audio. Timberly le devuelve el número para pintar en el paquete y el rendimiento del turno en pies² por tonelada.",
+        j3_m1: "Arranco turno en la sierra 1 con los rollos del R-418", j3_m2: "👷 Turno iniciado · Sierra 1 · Origen R-418 (San Jorge). Buen turno, Juan.<span class=\"time\">07:02</span>",
+        j3_m3: "“cerré un paquete de uno por seis por doce, ciento veinte piezas”", j3_m4: "✅ Paquete <b>A7K3</b> listo. Pintá <b>A7K3</b> en el paquete.<br>Pino · 1×6×12 · 120 piezas · 120 piezas estándar.<br>Origen: R-418 (San Jorge). Rinde acumulado del turno: 212 pies²/tn 🟢<span class=\"time\">10:42</span>",
+        j3_r1k: "Medida · piezas", j3_r1v: "1×6×12 · 120", j3_r2k: "Origen", j3_r2v: "R-418 · lote 6-52", j3_r3k: "Rinde del turno", j3_r4k: "Máquina · operario", j3_r4v: "Sierra 1 · Juan",
+
+        j4_stage: "Secado", j4_title: "Entra a la cámara y Timberly cuenta las horas", j4_text: "El operario carga la cámara y dice cuántas horas lleva el programa. Timberly avisa cuando vence el ciclo, pregunta si se cierra o se extiende, y guarda la humedad de entrada y salida.",
+        j4_m1: "Cargué la cámara 2 con 18 paquetes de 1x6, humedad 38, programa de 48 horas", j4_m2: "🔥 <b>Cámara 2</b> cargada: 18 paquetes · 1×6 · 38% · programa 48 h. Te aviso cuando venza.<span class=\"time\">16:40</span>",
+        j4_m3: "⏰ <b>Cámara 2</b>: el ciclo de 48 h venció hace 1 h. ¿Cerramos el secado o extendemos?<span class=\"time\">17:40</span>",
+        j4_m4: "Cerrá, salió con 12 de humedad", j4_m5: "✅ Secado cerrado · Cámara 2 · 18 paquetes pasan a <b>seco</b> · humedad final 12%.<span class=\"time\">17:41</span>",
+        j4_id: "Cámara 2 · ciclo 31", j4_r1k: "Paquetes", j4_r1v: "18 · 1×6 · pino", j4_r2k: "Programa", j4_r3k: "Humedad", j4_r4k: "Vencimiento", j4_r4v: "avisado 17:40",
+
+        j5_stage: "Clasificación y remanufactura", j5_title: "Se clasifica, se cepilla, se machimbra", j5_text: "Después del secado, cada paquete se reparte por calidad y avanza por las etapas que tiene tu planta: cepillado, machimbre, tableros. Timberly aprende tu cadena real y lleva la cuenta de cada avance.",
+        j5_m1: "Clasifiqué el A7K3: 90 clear y 30 comercial", j5_m2: "✅ <b>A7K3</b> repartido por calidad:<br>• A7K3 · Clear · 90 piezas<br>• A7K3-2 · Comercial · 30 piezas<span class=\"time\">09:31</span>",
+        j5_m3: "Pasé el A7K3 a cepillado", j5_m4: "➡️ <b>A7K3</b> avanzó a <b>cepillado</b> (flujo machimbre). Siguiente etapa en tu planta: machimbrado.<span class=\"time\">11:50</span>",
+        j5_r1k: "Calidad", j5_r1v: "Clear 90 · Comercial 30", j5_r2k: "Etapa", j5_r2v: "Seco → Cepillado", j5_r3k: "Flujo", j5_r3v: "Machimbre", j5_r4k: "Operario", j5_r4v: "Darío · 11:50",
+
+        j6_stage: "Despacho", j6_title: "Sale el camión, queda la traza", j6_text: "El despacho se arma por WhatsApp sumando paquetes por su número. Al cerrarlo, cada paquete queda con un enlace de trazabilidad: quién lo cortó, de qué recepción salió, qué cámara pasó y cuándo se fue.",
+        j6_m1: "Despacho para Maderas del Sur, paquetes A7K3 y B2Q1, remito 881", j6_m2: "🚚 Despacho <b>D-77</b> abierto · Maderas del Sur · 2 paquetes · remito 881. Avisame cuando salga el camión.<span class=\"time\">14:10</span>",
+        j6_m3: "Salió", j6_m4: "✅ Despacho <b>D-77</b> cerrado · 240 piezas · 1.440 pies².<br>Trazabilidad por paquete: timber.to/t/…/A7K3 🔗<span class=\"time\">15:22</span>",
+        j6_r1k: "Cliente", j6_r2k: "Paquetes", j6_r2v: "A7K3 · B2Q1", j6_r3k: "Volumen", j6_r4k: "Traza pública",
+
+        dash_label: "El tablero", dash_title: 'Y el dueño lo ve todo <em>sin preguntar</em>',
+        dash_sub: "Todo lo que se dijo por WhatsApp aparece ordenado en el tablero web: stock por etapa y calidad, cámaras, producción por máquina, recepciones y alertas. Con un enlace a la conversación que originó cada dato.",
+        d_b1t: "Stock por etapa, medida y calidad", d_b1: "Verde, seco, clasificado, cepillado, machimbre. Filtrás y exportás a Excel.",
+        d_b2t: "Preguntale al tablero", d_b2: "“¿Cuánto pino 1×6 seco hay?” El asistente responde con los datos de tu planta y te deja bajar la tabla.",
+        d_b3t: "Alertas que llegan solas", d_b3: "Ciclos de secado vencidos, contadores reseteados, remitos con diferencia. Por WhatsApp y en el tablero.",
+        d_b4t: "Revisión y exportes", d_b4: "Corregís una recepción leída de una foto, exportás stock o despachos, bajás la traza de cada paquete.",
+        d_tab1: "Hoy", d_tab2: "Stock", d_tab3: "Operaciones", d_tab4: "Alertas",
+        d_k1: "Stock verde", d_k1u: "piezas", d_k2: "Stock seco", d_k3: "Cámaras activas", d_k4: "Recepciones hoy",
+        d_chart: "Paquetes cerrados por día", d_chart_u: "Sierra 1 + Sierra 2", d_today: "Hoy",
+        d_chambers: "Secado", d_ch1: "Cámara 1", d_ch2: "Cámara 2", d_ch3: "Cámara 3", d_due: "venció", d_empty: "vacía",
+        d_alerts: "Alertas", d_a1: "Cámara 2: ciclo vencido hace 1 h", d_a2: "R-418: remito dice 150, se contaron 146", d_a3: "Contador sierra 1 reseteado · confirmado",
+        d_adv: "Asistente del tablero", d_q: "¿Cuánto pino 1×6 seco hay para despachar?", d_a: "Hay 1.860 piezas de pino 1×6 secas: 1.420 Clear y 440 Comercial. 12 paquetes ya están en cepillado.", d_export: "Exportar tabla",
+
+        feat_label: "Qué hace", feat_title: 'Todo el galpón, <em>módulo por módulo</em>',
+        feat_sub: "Cada módulo se alimenta de lo que tus operarios ya dicen por WhatsApp. No hay doble carga.",
+        feat_photo_cap: "Cada paquete lleva su número y su historia.",
+        f1_title: "Recepción de rollos", f1_text: "Foto del remito, conteo de rollos por foto, pesaje, proveedor, campo y patente. Diferencias contra el remito avisadas al momento.", f1_tag: "remito · pesaje · conteo",
+        f2_title: "Corte y rendimiento", f2_text: "Turnos, cambio de medida, cierre de paquetes, paquetes mixtos, contador de rollos. Rinde del turno en pies²/tn por máquina.", f2_tag: "paquetes · pies²/tn",
+        f3_title: "Secado con alertas", f3_text: "Carga de cámaras, programa en horas, humedad de entrada y salida. Aviso cuando vence el ciclo, extender o cerrar desde el chat.", f3_tag: "cámaras · humedad",
+        f4_title: "Stock y remanufactura", f4_text: "Stock por etapa, medida y calidad. Clasificar, partir, rearmar, cepillar, machimbrar y armar tableros. Tu cadena de etapas, no una genérica.", f4_tag: "verde · seco · cepillado",
+        f5_title: "Despacho y trazabilidad", f5_text: "Despachos por cliente sumando paquetes. Cada paquete con enlace público de traza: corte, recepción, secado y salida.", f5_tag: "QR · traza pública",
+        f6_title: "Mantenimiento y paradas", f6_text: "Roturas, reparaciones, preventivos programados, tiempos muertos por máquina, combustible y pedidos de repuestos.", f6_tag: "órdenes · preventivos",
+        f7_title: "Pedidos y producción", f7_text: "Un pedido de cliente llega en PDF o foto. Timberly lo lee, arma la cotización y publica la orden de producción para la planta.", f7_tag: "cotización · orden",
+        f8_title: "Asistente y exportes", f8_text: "Preguntá por stock, producción o recepciones en el tablero. Bajá Excel y PDF. En español, inglés y portugués.", f8_tag: "ES · EN · PT",
+
+        why_label: "Por qué funciona", why_title: 'Funciona porque <em>no cambia cómo trabaja tu gente</em>',
+        why_sub: "Probamos Timberly en aserraderos reales de Misiones. Lo que quedó es lo que la planta usa de verdad.",
+        why1_title: "Pregunta cuando duda", why1_text: "Si un audio puede querer decir dos cosas, Timberly no adivina: pregunta con botones y recién después anota.",
+        why2_title: "Se corrige por chat", why2_text: "“Eran 110, no 120.” Un mensaje corrige el paquete, la recepción o la humedad. Queda registrado quién cambió qué.",
+        why3_title: "Habla el idioma del galpón", why3_text: "1×6×12, 7/8, pies², toneladas, remito, planchada, cámara. Entiende las medidas y las palabras que ya usan tus operarios.",
+        why4_title: "Arranca en días", why4_text: "Cargamos tu catálogo: especies, medidas, cámaras, máquinas, clientes y proveedores. Después, el primer audio ya cuenta.",
+        no_title: "Lo que no vas a necesitar", no1: "Instalar una app nueva en cada celular", no2: "Capacitar a los operarios con un manual", no3: "Planillas que alguien tiene que pasar a la noche", no4: "Hardware, lectores o servidores en la planta",
+
+        cta_label: "Empezar", cta_title: 'Empezá a anotar <em>hoy mismo</em>',
+        cta_sub: "Escribinos por WhatsApp o mail y te mostramos una demo con los datos de tu planta. Pruebas y período de prueba sin costo.",
+        cta_btn: "Entrar a Timberly", cta_btn2: "Pedir una demo", wa_msg: "Hola! Quisiera saber más info de Timberly",  cta_wa: "WhatsApp", cta_mail: "Escribinos por mail", mail_subject: "Quisiera saber más info de Timberly",
+        footer: "&copy; 2026 Timberly. Hecho en Misiones, Argentina.", footer_privacy: "Política de privacidad", footer_terms: "Términos del servicio",
       },
+
+      /* ===================== EN ===================== */
+      en: {
+        nav_journey: "The journey", nav_dashboard: "The dashboard", nav_features: "What it does", nav_cta: "Sign in",
+        hero_eyebrow: "Sawmill management over WhatsApp",
+        hero_title: 'Your sawmill already talks. <em>Timberly writes it down.</em>',
+        hero_slogan: "Your crew sends a voice note or a photo on WhatsApp, like they always do. Timberly turns it into log intakes, bundles, kiln cycles, stock, dispatches and traceability. No spreadsheets, no new apps.",
+        hero_cta: "Open Timberly", hero_cta2: "Follow a log through the mill",
+        hero_chip1: "Nothing to install on the floor", hero_chip2: "Voice, text or photo", hero_chip3: "Asks when unsure",
+        hero_caption: "Juan · saw 1 · 10:42",
+        phone_status: "online",
+        hc_reply: "✅ Bundle <b>A7K3</b> ready. Paint <b>A7K3</b> on the bundle.<br>Pine · 1×6×12 · 120 pieces · 120 pieces standard.<br>Origin: R-418 (San Jorge). Shift yield so far: 212 ft²/t 🟢<span class=\"time\">10:42</span>",
+        hc_ticket_kind: "Bundle", tk_species: "Species", tk_dim: "Size", tk_pieces: "Pieces", tk_stage: "Stage", tk_yield: "Shift yield", tk_operator: "Operator", tk_stamp: "recorded",
+        hc_v_species: "Pine", hc_v_stage: "Green", hc_v_operator: "Juan · Saw 1",
+
+        who_label: "Who it's for", who_title: 'Built for the people <em>on the mill floor</em>',
+        who_sub: "Everyone keeps working the way they work. What changes is that everything is now written down, in one place.",
+        who1_role: "Owner", who1_title: "See the day without calling anyone", who1_text: "How much is green, dry and planed. Which kiln is due today. Which trucks came in and what went out. From your phone or laptop, with today's numbers, not last week's.",
+        who2_role: "Plant manager", who2_title: "Run the floor from your phone", who2_text: "Which bundles each saw closed, how the shift yielded, which machine is down and why. Alerts arrive on their own: a kiln past due, an odd counter, a delivery note that doesn't add up.",
+        who3_role: "Operator", who3_title: "Talk, don't fill forms", who3_text: "A voice note when a bundle is closed. A photo of the delivery note when a truck arrives. Timberly answers in seconds, tells them what number to paint on the bundle and asks if anything is missing.",
+
+        j_label: "The journey", j_title: 'One log, from forest to customer, <em>recorded step by step</em>',
+        j_sub: "Every WhatsApp message becomes a record with a date, a person and a bundle. That is how traceability builds itself, without anyone sitting down to type data in.",
+        j_note: "What gets recorded", btn_yes: "Yes, correct", btn_fix: "Fix it", btn_confirm: "Confirm 146", btn_close: "Close drying", btn_extend: "Extend 6 h",
+
+        j1_stage: "Forest", j1_title: "Leaves the forest with a photo", j1_text: "The forest foreman photographs the shipment slip. Timberly reads the lot, the field, the plate and the tonnes, and opens the trip before the truck reaches the mill.",
+        j1_m1: "📷 Shipment slip, lot 6-52", j1_m2: "📄 Shipment recorded: <b>Lot 6-52</b> · San Jorge field · pine · 28 t declared · truck AB 123 CD.<br>Is that right?<span class=\"time\">07:20</span>",
+        j1_id: "Shipment 6-52", j1_r1k: "Lot / field", j1_r1v: "6-52 · San Jorge", j1_r2k: "Species", j1_r2v: "Pine", j1_r3k: "Truck", j1_r3v: "AB 123 CD", j1_r4k: "Declared", j1_r4v: "28 t",
+
+        j2_stage: "Intake", j2_title: "The truck arrives", j2_text: "The yard operator sends a voice note or a photo of the delivery note. Timberly registers the intake, counts the logs on the truck photo and compares against what the note said.",
+        j2_m1: "“San Jorge truck is here, delivery note 4523, weighed 28.4”", j2_m2: "✅ Truck registered. Mark these logs with ID number <b>R-418</b>.<br>28.4 t · Delivery note 4523<span class=\"time\">08:11</span>",
+        j2_m3: "📷 Photo of the loaded truck", j2_m4: "I counted <b>146 logs</b> in the photo. The note says 150. Confirm 146 or fix it?<span class=\"time\">08:14</span>",
+        j2_r1k: "Supplier / field", j2_r1v: "San Jorge", j2_r2k: "Weight · logs", j2_r3k: "Delivery note", j2_r3v: "4523 (diff −4)", j2_r4k: "Operator", j2_r4v: "Marcos · 08:11",
+
+        j3_stage: "Sawing", j3_title: "Logs become bundles", j3_text: "The sawyer starts the shift, says which logs he is cutting and closes each bundle with a voice note. Timberly replies with the number to paint on the bundle and the shift yield in ft² per tonne.",
+        j3_m1: "Starting shift on saw 1 with the R-418 logs", j3_m2: "👷 Shift started · Saw 1 · Origin R-418 (San Jorge). Have a good one, Juan.<span class=\"time\">07:02</span>",
+        j3_m3: "“closed a bundle of one by six by twelve, a hundred and twenty pieces”", j3_m4: "✅ Bundle <b>A7K3</b> ready. Paint <b>A7K3</b> on the bundle.<br>Pine · 1×6×12 · 120 pieces · 120 pieces standard.<br>Origin: R-418 (San Jorge). Shift yield so far: 212 ft²/t 🟢<span class=\"time\">10:42</span>",
+        j3_r1k: "Size · pieces", j3_r1v: "1×6×12 · 120", j3_r2k: "Origin", j3_r2v: "R-418 · lot 6-52", j3_r3k: "Shift yield", j3_r4k: "Machine · operator", j3_r4v: "Saw 1 · Juan",
+
+        j4_stage: "Drying", j4_title: "Into the kiln, and Timberly counts the hours", j4_text: "The operator loads the kiln and says how long the program runs. Timberly warns when the cycle is due, asks whether to close or extend, and keeps the moisture in and out.",
+        j4_m1: "Loaded kiln 2 with 18 bundles of 1x6, moisture 38, 48-hour program", j4_m2: "🔥 <b>Kiln 2</b> loaded: 18 bundles · 1×6 · 38% · 48 h program. I'll ping you when it's due.<span class=\"time\">16:40</span>",
+        j4_m3: "⏰ <b>Kiln 2</b>: the 48 h cycle was due 1 h ago. Close the drying or extend?<span class=\"time\">17:40</span>",
+        j4_m4: "Close it, came out at 12 moisture", j4_m5: "✅ Drying closed · Kiln 2 · 18 bundles move to <b>dry</b> · final moisture 12%.<span class=\"time\">17:41</span>",
+        j4_id: "Kiln 2 · cycle 31", j4_r1k: "Bundles", j4_r1v: "18 · 1×6 · pine", j4_r2k: "Program", j4_r3k: "Moisture", j4_r4k: "Due", j4_r4v: "alerted 17:40",
+
+        j5_stage: "Grading and remanufacturing", j5_title: "Graded, planed, tongue-and-grooved", j5_text: "After drying, each bundle is split by grade and moves through the stages your plant actually has: planing, tongue-and-groove, panels. Timberly learns your real chain and tracks every move.",
+        j5_m1: "Graded A7K3: 90 clear and 30 common", j5_m2: "✅ <b>A7K3</b> split by grade:<br>• A7K3 · Clear · 90 pieces<br>• A7K3-2 · Common · 30 pieces<span class=\"time\">09:31</span>",
+        j5_m3: "Moved A7K3 to planing", j5_m4: "➡️ <b>A7K3</b> advanced to <b>planing</b> (tongue-and-groove flow). Next stage in your plant: T&G.<span class=\"time\">11:50</span>",
+        j5_r1k: "Grade", j5_r1v: "Clear 90 · Common 30", j5_r2k: "Stage", j5_r2v: "Dry → Planing", j5_r3k: "Flow", j5_r3v: "Tongue & groove", j5_r4k: "Operator", j5_r4v: "Darío · 11:50",
+
+        j6_stage: "Dispatch", j6_title: "The truck leaves, the trace stays", j6_text: "A dispatch is built on WhatsApp by adding bundles by number. When it closes, every bundle gets a traceability link: who cut it, which intake it came from, which kiln it went through and when it left.",
+        j6_m1: "Dispatch for Maderas del Sur, bundles A7K3 and B2Q1, note 881", j6_m2: "🚚 Dispatch <b>D-77</b> open · Maderas del Sur · 2 bundles · note 881. Tell me when the truck leaves.<span class=\"time\">14:10</span>",
+        j6_m3: "It left", j6_m4: "✅ Dispatch <b>D-77</b> closed · 240 pieces · 1,440 ft².<br>Per-bundle traceability: timber.to/t/…/A7K3 🔗<span class=\"time\">15:22</span>",
+        j6_r1k: "Customer", j6_r2k: "Bundles", j6_r2v: "A7K3 · B2Q1", j6_r3k: "Volume", j6_r4k: "Public trace",
+
+        dash_label: "The dashboard", dash_title: 'And the owner sees everything <em>without asking</em>',
+        dash_sub: "Everything said on WhatsApp shows up organised in the web dashboard: stock by stage and grade, kilns, production per machine, intakes and alerts. Each figure links back to the conversation it came from.",
+        d_b1t: "Stock by stage, size and grade", d_b1: "Green, dry, graded, planed, T&G. Filter it and export to Excel.",
+        d_b2t: "Ask the dashboard", d_b2: "“How much dry 1×6 pine is there?” The assistant answers with your plant's data and lets you download the table.",
+        d_b3t: "Alerts that come to you", d_b3: "Overdue kiln cycles, reset counters, delivery notes that don't match. On WhatsApp and in the dashboard.",
+        d_b4t: "Review and exports", d_b4: "Correct an intake read from a photo, export stock or dispatches, download every bundle's trace.",
+        d_tab1: "Today", d_tab2: "Stock", d_tab3: "Operations", d_tab4: "Alerts",
+        d_k1: "Green stock", d_k1u: "pieces", d_k2: "Dry stock", d_k3: "Active kilns", d_k4: "Intakes today",
+        d_chart: "Bundles closed per day", d_chart_u: "Saw 1 + Saw 2", d_today: "Today",
+        d_chambers: "Drying", d_ch1: "Kiln 1", d_ch2: "Kiln 2", d_ch3: "Kiln 3", d_due: "due", d_empty: "empty",
+        d_alerts: "Alerts", d_a1: "Kiln 2: cycle 1 h overdue", d_a2: "R-418: note says 150, counted 146", d_a3: "Saw 1 counter reset · confirmed",
+        d_adv: "Dashboard assistant", d_q: "How much dry 1×6 pine is ready to ship?", d_a: "There are 1,860 pieces of dry 1×6 pine: 1,420 Clear and 440 Common. 12 bundles are already in planing.", d_export: "Export table",
+
+        feat_label: "What it does", feat_title: 'The whole mill, <em>module by module</em>',
+        feat_sub: "Every module feeds on what your operators already say on WhatsApp. Nothing is entered twice.",
+        feat_photo_cap: "Every bundle carries its number and its history.",
+        f1_title: "Log intake", f1_text: "Photo of the delivery note, log count from a photo, weighing, supplier, field and plate. Differences against the note flagged on the spot.", f1_tag: "note · weight · count",
+        f2_title: "Sawing and yield", f2_text: "Shifts, size changes, bundle closing, mixed bundles, log counter. Shift yield in ft²/t per machine.", f2_tag: "bundles · ft²/t",
+        f3_title: "Drying with alerts", f3_text: "Kiln loading, program hours, moisture in and out. A ping when the cycle is due; extend or close from the chat.", f3_tag: "kilns · moisture",
+        f4_title: "Stock and remanufacturing", f4_text: "Stock by stage, size and grade. Grade, split, rebuild, plane, tongue-and-groove and assemble panels. Your stage chain, not a generic one.", f4_tag: "green · dry · planed",
+        f5_title: "Dispatch and traceability", f5_text: "Dispatches per customer by adding bundles. Every bundle gets a public trace link: cut, intake, kiln and departure.", f5_tag: "QR · public trace",
+        f6_title: "Maintenance and downtime", f6_text: "Breakdowns, repairs, scheduled preventives, machine downtime, fuel and spare-part requests.", f6_tag: "work orders · preventive",
+        f7_title: "Orders and production", f7_text: "A customer order arrives as a PDF or photo. Timberly reads it, builds the quote and publishes the production order for the floor.", f7_tag: "quote · production order",
+        f8_title: "Assistant and exports", f8_text: "Ask about stock, production or intakes in the dashboard. Download Excel and PDF. In Spanish, English and Portuguese.", f8_tag: "ES · EN · PT",
+
+        why_label: "Why it works", why_title: 'It works because <em>your people don\'t have to change</em>',
+        why_sub: "We built Timberly inside real sawmills in Misiones. What survived is what the floor actually uses.",
+        why1_title: "Asks when unsure", why1_text: "If a voice note could mean two things, Timberly doesn't guess: it asks with buttons and only then records.",
+        why2_title: "Corrected by chat", why2_text: "“It was 110, not 120.” One message fixes the bundle, the intake or the moisture. Who changed what stays on record.",
+        why3_title: "Speaks the floor's language", why3_text: "1×6×12, 7/8, ft², tonnes, delivery note, yard, kiln. It understands the sizes and the words your crew already uses.",
+        why4_title: "Up in days", why4_text: "We load your catalog: species, sizes, kilns, machines, customers and suppliers. After that, the first voice note already counts.",
+        no_title: "What you won't need", no1: "A new app installed on every phone", no2: "Training operators with a manual", no3: "Spreadsheets someone fills in at night", no4: "Hardware, scanners or servers at the plant",
+
+        cta_label: "Get started", cta_title: 'Start writing it down <em>today</em>',
+        cta_sub: "Message us on WhatsApp or email and we'll show you a demo with your plant's data. Trials and trial period at no cost.",
+        cta_btn: "Open Timberly", cta_btn2: "Request a demo", wa_msg: "Hi! I'd like to know more about Timberly", cta_wa: "WhatsApp", cta_mail: "Email us", mail_subject: "I'd like to know more about Timberly",
+        footer: "&copy; 2026 Timberly. Made in Misiones, Argentina.", footer_privacy: "Privacy Policy", footer_terms: "Terms of Service",
+      },
+
+      /* ===================== PT ===================== */
       pt: {
-        nav_how: "Como funciona",
-        nav_features: "Funcionalidades",
-        nav_cta: "Entrar",
-        hero_badge: "Inteligência Artificial especializada em serrarias",
-        hero_title: 'De <span class="highlight">toras</span> a <span class="highlight">dados</span>.',
-        hero_slogan: "Agentes de IA que operam sua serraria — para que você foque no que importa.",
-        hero_bullet1: "WhatsApp nativo — sem apps novos para aprender",
-        hero_bullet2: "Estoque, rendimento e despacho em tempo real",
-        hero_bullet3: "Configuração em minutos, sem infraestrutura",
-        hero_cta: "Fale conosco para uma demo",
-        hero_how: "Veja como funciona",
-        how_label: "Como funciona",
-        how_title: "De um áudio no WhatsApp a dados no seu dashboard",
-        how_subtitle: "Sem apps novos, sem treinamento, sem mudar como seus operadores trabalham.",
-        step1_title: "O operador envia uma mensagem",
-        step1_text: "Um áudio, texto ou foto pelo WhatsApp. Fala como sempre fala.",
-        step2_title: "A IA extrai os dados",
-        step2_text: "Timberly transcreve, interpreta e estrutura a informação automaticamente.",
-        step3_title: "Você vê tudo em tempo real",
-        step3_text: "Estoque, rendimento, pedidos, custos. Tudo no dashboard, sem planilhas.",
-        feat_label: "Funcionalidades",
-        feat_title: "Tudo que você precisa para controlar a operação",
-        feat_subtitle: "Cada módulo se alimenta dos dados que seus operadores já reportam.",
-        f1_title: "Estoque em tempo real",
-        f1_text: "Inventário por espécie, dimensão e etapa de processo. Sempre atualizado.",
-        f2_title: "Rendimento e custos",
-        f2_text: "Custo por pé calculado automaticamente a partir da produção real.",
-        f3_title: "Pedidos e despacho",
-        f3_text: "Acompanhe o avanço e despache quando estiver pronto. Nada se perde.",
-        f4_title: "WhatsApp nativo",
-        f4_text: "Áudios, texto, fotos. Timberly entende tudo e transforma em dados.",
-        f5_title: "Consultor inteligente",
-        f5_text: "Pergunte o que priorizar, se um pedido está em risco, ou como um operador rendeu.",
-        f6_title: "Rastreabilidade completa",
-        f6_text: "Da tora ao despacho. Cada movimento fica registrado.",
-        cta_title: "Otimize sua Serraria com Inteligência Artificial",
-        cta_sub: "Teste, demo e período de avaliação sem custo. Escreva para info@timber.to.",
-        cta_btn: "Fale conosco para uma demo",
-        footer: "&copy; 2026 Timberly. Feito em Misiones, Argentina.",
-        footer_privacy: "Política de privacidade",
-        footer_terms: "Termos de serviço",
+        nav_journey: "O percurso", nav_dashboard: "O painel", nav_features: "O que faz", nav_cta: "Entrar",
+        hero_eyebrow: "Gestão de serrarias pelo WhatsApp",
+        hero_title: 'A serraria já conta o que acontece. <em>A Timberly anota.</em>',
+        hero_slogan: "Seus operadores mandam um áudio ou uma foto pelo WhatsApp, como sempre. A Timberly transforma isso em recebimentos, pacotes, secagem, estoque, expedições e rastreabilidade. Sem planilhas nem apps novos.",
+        hero_cta: "Entrar na Timberly", hero_cta2: "Ver o percurso de uma tora",
+        hero_chip1: "Nada para instalar no galpão", hero_chip2: "Áudio, texto ou foto", hero_chip3: "Pergunta quando tem dúvida",
+        hero_caption: "Juan · serra 1 · 10:42",
+        phone_status: "online",
+        hc_reply: "✅ Pacote <b>A7K3</b> pronto. Pinte <b>A7K3</b> no pacote.<br>Pinho · 1×6×12 · 120 peças · 120 peças padrão.<br>Origem: R-418 (San Jorge). Rendimento acumulado do turno: 212 pés²/tn 🟢<span class=\"time\">10:42</span>",
+        hc_ticket_kind: "Pacote", tk_species: "Espécie", tk_dim: "Medida", tk_pieces: "Peças", tk_stage: "Etapa", tk_yield: "Rend. do turno", tk_operator: "Operador", tk_stamp: "anotado",
+        hc_v_species: "Pinho", hc_v_stage: "Verde", hc_v_operator: "Juan · Serra 1",
+
+        who_label: "Para quem", who_title: 'Feito para as pessoas <em>da serraria</em>',
+        who_sub: "Cada pessoa da planta continua trabalhando como trabalha. O que muda é que agora tudo fica anotado, em um só lugar.",
+        who1_role: "Dono ou dona", who1_title: "Ver o dia sem ligar para ninguém", who1_text: "Quanto tem em verde, em seco e em aplainado. Qual estufa vence hoje. Que caminhões chegaram e o que saiu. Do celular ou do computador, com os números de hoje, não da semana passada.",
+        who2_role: "Encarregado", who2_title: "Controlar a planta pelo celular", who2_text: "Que pacotes cada serra fechou, quanto rendeu o turno, que máquina está parada e por quê. Os alertas chegam sozinhos: uma estufa vencida, um contador estranho, uma nota que não bate.",
+        who3_role: "Operador", who3_title: "Falar, não preencher formulários", who3_text: "Um áudio quando fecha um pacote. Uma foto da nota quando chega um caminhão. A Timberly responde em segundos, diz que número pintar no pacote e pergunta se falta algo.",
+
+        j_label: "O percurso", j_title: 'Uma tora, da floresta ao cliente, <em>anotada passo a passo</em>',
+        j_sub: "Cada mensagem do WhatsApp vira um registro com data, pessoa e pacote. É assim que a rastreabilidade se monta, sem que ninguém precise sentar para digitar dados.",
+        j_note: "O que fica anotado", btn_yes: "Sim, correto", btn_fix: "Corrigir", btn_confirm: "Confirmar 146", btn_close: "Fechar secagem", btn_extend: "Estender 6 h",
+
+        j1_stage: "Floresta", j1_title: "Sai da floresta com uma foto", j1_text: "O encarregado da floresta fotografa a guia de saída. A Timberly lê o lote, o talhão, a placa e as toneladas, e abre a viagem antes de o caminhão chegar à planta.",
+        j1_m1: "📷 Guia de saída, lote 6-52", j1_m2: "📄 Saída registrada: <b>Lote 6-52</b> · Fazenda San Jorge · pinho · 28 t declaradas · caminhão AB 123 CD.<br>Está certo?<span class=\"time\">07:20</span>",
+        j1_id: "Saída 6-52", j1_r1k: "Lote / fazenda", j1_r1v: "6-52 · San Jorge", j1_r2k: "Espécie", j1_r2v: "Pinho", j1_r3k: "Caminhão", j1_r3v: "AB 123 CD", j1_r4k: "Declarado", j1_r4v: "28 t",
+
+        j2_stage: "Recebimento", j2_title: "O caminhão chega", j2_text: "O operador do pátio avisa com um áudio ou manda a foto da nota. A Timberly registra o recebimento, conta as toras na foto do caminhão e compara com o que a nota dizia.",
+        j2_m1: "“chegou o caminhão da San Jorge, nota 4523, pesou 28 e 4”", j2_m2: "✅ Caminhão recebido. Identifique estas toras com o ID número <b>R-418</b>.<br>28,4 t · Nota 4523<span class=\"time\">08:11</span>",
+        j2_m3: "📷 Foto do caminhão carregado", j2_m4: "Contei <b>146 toras</b> na foto. A nota diz 150. Confirma 146 ou corrigimos?<span class=\"time\">08:14</span>",
+        j2_r1k: "Fornecedor / fazenda", j2_r1v: "San Jorge", j2_r2k: "Pesagem · toras", j2_r3k: "Nota", j2_r3v: "4523 (dif. −4)", j2_r4k: "Operador", j2_r4v: "Marcos · 08:11",
+
+        j3_stage: "Corte", j3_title: "Corta e monta pacotes", j3_text: "O serrador inicia o turno, diz que toras está cortando e fecha cada pacote com um áudio. A Timberly devolve o número para pintar no pacote e o rendimento do turno em pés² por tonelada.",
+        j3_m1: "Começando o turno na serra 1 com as toras do R-418", j3_m2: "👷 Turno iniciado · Serra 1 · Origem R-418 (San Jorge). Bom turno, Juan.<span class=\"time\">07:02</span>",
+        j3_m3: "“fechei um pacote de um por seis por doze, cento e vinte peças”", j3_m4: "✅ Pacote <b>A7K3</b> pronto. Pinte <b>A7K3</b> no pacote.<br>Pinho · 1×6×12 · 120 peças · 120 peças padrão.<br>Origem: R-418 (San Jorge). Rendimento acumulado do turno: 212 pés²/tn 🟢<span class=\"time\">10:42</span>",
+        j3_r1k: "Medida · peças", j3_r1v: "1×6×12 · 120", j3_r2k: "Origem", j3_r2v: "R-418 · lote 6-52", j3_r3k: "Rend. do turno", j3_r4k: "Máquina · operador", j3_r4v: "Serra 1 · Juan",
+
+        j4_stage: "Secagem", j4_title: "Entra na estufa e a Timberly conta as horas", j4_text: "O operador carrega a estufa e diz quantas horas dura o programa. A Timberly avisa quando o ciclo vence, pergunta se fecha ou estende, e guarda a umidade de entrada e saída.",
+        j4_m1: "Carreguei a estufa 2 com 18 pacotes de 1x6, umidade 38, programa de 48 horas", j4_m2: "🔥 <b>Estufa 2</b> carregada: 18 pacotes · 1×6 · 38% · programa 48 h. Aviso quando vencer.<span class=\"time\">16:40</span>",
+        j4_m3: "⏰ <b>Estufa 2</b>: o ciclo de 48 h venceu há 1 h. Fechamos a secagem ou estendemos?<span class=\"time\">17:40</span>",
+        j4_m4: "Fecha, saiu com 12 de umidade", j4_m5: "✅ Secagem fechada · Estufa 2 · 18 pacotes passam para <b>seco</b> · umidade final 12%.<span class=\"time\">17:41</span>",
+        j4_id: "Estufa 2 · ciclo 31", j4_r1k: "Pacotes", j4_r1v: "18 · 1×6 · pinho", j4_r2k: "Programa", j4_r3k: "Umidade", j4_r4k: "Vencimento", j4_r4v: "avisado 17:40",
+
+        j5_stage: "Classificação e beneficiamento", j5_title: "Classifica, aplaina, encaixa", j5_text: "Depois da secagem, cada pacote é dividido por qualidade e avança pelas etapas que a sua planta tem: aplainamento, macho-fêmea, painéis. A Timberly aprende a sua cadeia real e acompanha cada avanço.",
+        j5_m1: "Classifiquei o A7K3: 90 clear e 30 comercial", j5_m2: "✅ <b>A7K3</b> dividido por qualidade:<br>• A7K3 · Clear · 90 peças<br>• A7K3-2 · Comercial · 30 peças<span class=\"time\">09:31</span>",
+        j5_m3: "Passei o A7K3 para aplainamento", j5_m4: "➡️ <b>A7K3</b> avançou para <b>aplainamento</b> (fluxo macho-fêmea). Próxima etapa na sua planta: encaixe.<span class=\"time\">11:50</span>",
+        j5_r1k: "Qualidade", j5_r1v: "Clear 90 · Comercial 30", j5_r2k: "Etapa", j5_r2v: "Seco → Aplainado", j5_r3k: "Fluxo", j5_r3v: "Macho-fêmea", j5_r4k: "Operador", j5_r4v: "Darío · 11:50",
+
+        j6_stage: "Expedição", j6_title: "O caminhão sai, o rastro fica", j6_text: "A expedição é montada pelo WhatsApp somando pacotes pelo número. Ao fechar, cada pacote recebe um link de rastreabilidade: quem cortou, de que recebimento saiu, por que estufa passou e quando foi embora.",
+        j6_m1: "Expedição para Maderas del Sur, pacotes A7K3 e B2Q1, nota 881", j6_m2: "🚚 Expedição <b>D-77</b> aberta · Maderas del Sur · 2 pacotes · nota 881. Me avise quando o caminhão sair.<span class=\"time\">14:10</span>",
+        j6_m3: "Saiu", j6_m4: "✅ Expedição <b>D-77</b> fechada · 240 peças · 1.440 pés².<br>Rastreabilidade por pacote: timber.to/t/…/A7K3 🔗<span class=\"time\">15:22</span>",
+        j6_r1k: "Cliente", j6_r2k: "Pacotes", j6_r2v: "A7K3 · B2Q1", j6_r3k: "Volume", j6_r4k: "Rastro público",
+
+        dash_label: "O painel", dash_title: 'E o dono vê tudo <em>sem perguntar</em>',
+        dash_sub: "Tudo o que foi dito pelo WhatsApp aparece organizado no painel web: estoque por etapa e qualidade, estufas, produção por máquina, recebimentos e alertas. Com um link para a conversa que originou cada dado.",
+        d_b1t: "Estoque por etapa, medida e qualidade", d_b1: "Verde, seco, classificado, aplainado, macho-fêmea. Filtre e exporte para Excel.",
+        d_b2t: "Pergunte ao painel", d_b2: "“Quanto pinho 1×6 seco tem?” O assistente responde com os dados da sua planta e deixa baixar a tabela.",
+        d_b3t: "Alertas que chegam sozinhos", d_b3: "Ciclos de secagem vencidos, contadores zerados, notas com diferença. Pelo WhatsApp e no painel.",
+        d_b4t: "Revisão e exportações", d_b4: "Corrija um recebimento lido de uma foto, exporte estoque ou expedições, baixe o rastro de cada pacote.",
+        d_tab1: "Hoje", d_tab2: "Estoque", d_tab3: "Operações", d_tab4: "Alertas",
+        d_k1: "Estoque verde", d_k1u: "peças", d_k2: "Estoque seco", d_k3: "Estufas ativas", d_k4: "Recebimentos hoje",
+        d_chart: "Pacotes fechados por dia", d_chart_u: "Serra 1 + Serra 2", d_today: "Hoje",
+        d_chambers: "Secagem", d_ch1: "Estufa 1", d_ch2: "Estufa 2", d_ch3: "Estufa 3", d_due: "venceu", d_empty: "vazia",
+        d_alerts: "Alertas", d_a1: "Estufa 2: ciclo vencido há 1 h", d_a2: "R-418: nota diz 150, contadas 146", d_a3: "Contador serra 1 zerado · confirmado",
+        d_adv: "Assistente do painel", d_q: "Quanto pinho 1×6 seco tem para expedir?", d_a: "Há 1.860 peças de pinho 1×6 secas: 1.420 Clear e 440 Comercial. 12 pacotes já estão em aplainamento.", d_export: "Exportar tabela",
+
+        feat_label: "O que faz", feat_title: 'O galpão inteiro, <em>módulo por módulo</em>',
+        feat_sub: "Cada módulo se alimenta do que seus operadores já dizem pelo WhatsApp. Nada é digitado duas vezes.",
+        feat_photo_cap: "Cada pacote carrega seu número e sua história.",
+        f1_title: "Recebimento de toras", f1_text: "Foto da nota, contagem de toras por foto, pesagem, fornecedor, fazenda e placa. Diferenças com a nota avisadas na hora.", f1_tag: "nota · pesagem · contagem",
+        f2_title: "Corte e rendimento", f2_text: "Turnos, troca de medida, fechamento de pacotes, pacotes mistos, contador de toras. Rendimento do turno em pés²/t por máquina.", f2_tag: "pacotes · pés²/t",
+        f3_title: "Secagem com alertas", f3_text: "Carga de estufas, programa em horas, umidade de entrada e saída. Aviso quando o ciclo vence; estender ou fechar pelo chat.", f3_tag: "estufas · umidade",
+        f4_title: "Estoque e beneficiamento", f4_text: "Estoque por etapa, medida e qualidade. Classificar, dividir, remontar, aplainar, encaixar e montar painéis. A sua cadeia de etapas, não uma genérica.", f4_tag: "verde · seco · aplainado",
+        f5_title: "Expedição e rastreabilidade", f5_text: "Expedições por cliente somando pacotes. Cada pacote com link público de rastro: corte, recebimento, secagem e saída.", f5_tag: "QR · rastro público",
+        f6_title: "Manutenção e paradas", f6_text: "Quebras, reparos, preventivas programadas, tempos parados por máquina, combustível e pedidos de peças.", f6_tag: "ordens · preventivas",
+        f7_title: "Pedidos e produção", f7_text: "Um pedido de cliente chega em PDF ou foto. A Timberly lê, monta o orçamento e publica a ordem de produção para a planta.", f7_tag: "orçamento · ordem",
+        f8_title: "Assistente e exportações", f8_text: "Pergunte por estoque, produção ou recebimentos no painel. Baixe Excel e PDF. Em português, espanhol e inglês.", f8_tag: "PT · ES · EN",
+
+        why_label: "Por que funciona", why_title: 'Funciona porque <em>não muda como sua equipe trabalha</em>',
+        why_sub: "Construímos a Timberly dentro de serrarias reais em Misiones. O que ficou é o que a planta usa de verdade.",
+        why1_title: "Pergunta quando tem dúvida", why1_text: "Se um áudio pode querer dizer duas coisas, a Timberly não adivinha: pergunta com botões e só depois anota.",
+        why2_title: "Corrige pelo chat", why2_text: "“Eram 110, não 120.” Uma mensagem corrige o pacote, o recebimento ou a umidade. Fica registrado quem mudou o quê.",
+        why3_title: "Fala a língua do galpão", why3_text: "1×6×12, 7/8, pés², toneladas, nota, pátio, estufa. Entende as medidas e as palavras que seus operadores já usam.",
+        why4_title: "Começa em dias", why4_text: "Carregamos o seu catálogo: espécies, medidas, estufas, máquinas, clientes e fornecedores. Depois, o primeiro áudio já conta.",
+        no_title: "O que você não vai precisar", no1: "Instalar um app novo em cada celular", no2: "Treinar os operadores com um manual", no3: "Planilhas que alguém preenche à noite", no4: "Hardware, leitores ou servidores na planta",
+
+        cta_label: "Começar", cta_title: 'Comece a anotar <em>hoje mesmo</em>',
+        cta_sub: "Fale com a gente por WhatsApp ou e-mail e mostramos uma demo com os dados da sua planta. Testes e período de avaliação sem custo.",
+        cta_btn: "Entrar na Timberly", cta_btn2: "Pedir uma demo", wa_msg: "Olá! Gostaria de saber mais sobre o Timberly", cta_wa: "WhatsApp", cta_mail: "Envie um e-mail", mail_subject: "Gostaria de saber mais sobre o Timberly",
+        footer: "&copy; 2026 Timberly. Feito em Misiones, Argentina.", footer_privacy: "Política de privacidade", footer_terms: "Termos de serviço",
       },
     };
 
     function detectLang() {
-      var stored = localStorage.getItem("lang");
+      var stored = null;
+      try { stored = localStorage.getItem("lang"); } catch (e) {}
       if (stored && T[stored]) return stored;
       var nav = (navigator.language || "en").slice(0, 2).toLowerCase();
       return T[nav] ? nav : "en";
     }
 
     function setLang(lang) {
-      localStorage.setItem("lang", lang);
+      try { localStorage.setItem("lang", lang); } catch (e) {}
       document.documentElement.lang = lang;
       var strings = T[lang];
-
+      document.querySelectorAll("[data-wa]").forEach(function (el) {
+        el.href = "https://wa.me/5493764705749?text=" + encodeURIComponent(strings.wa_msg);
+      });
+      document.querySelectorAll("[data-mail]").forEach(function (el) {
+        el.href = "mailto:leandro@timber.to?subject=" + encodeURIComponent(strings.mail_subject);
+      });
       document.querySelectorAll("[data-i18n]").forEach(function (el) {
         el.textContent = strings[el.dataset.i18n] || "";
       });
       document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
         el.innerHTML = strings[el.dataset.i18nHtml] || "";
       });
-
       document.querySelectorAll(".lang-btn").forEach(function (btn) {
         btn.classList.toggle("active", btn.dataset.lang === lang);
       });
-
-      document.title = "Timberly — " + strings.hero_slogan.slice(0, 60);
+      document.title = "Timberly — " + strings.hero_title.replace(/<[^>]+>/g, "");
       var desc = document.querySelector('meta[name="description"]');
       if (desc) desc.content = strings.hero_slogan;
+      syncPhone(true);
     }
 
     document.querySelectorAll(".lang-btn").forEach(function (btn) {
       btn.addEventListener("click", function () { setLang(btn.dataset.lang); });
     });
 
-    setLang(detectLang());
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Auto-cycle highlight on "Cómo funciona" steps. Pauses on hover. Disabled if user prefers reduced motion.
-    (function cycleSteps() {
-      var steps = Array.from(document.querySelectorAll("#how .step"));
-      if (steps.length === 0) return;
-      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reduce) {
-        steps.forEach(function (s) { s.classList.add("active"); });
-        return;
+    /* ---- Journey: sticky phone mirrors the active chapter ---- */
+    var chapters = Array.from(document.querySelectorAll(".chapter"));
+    var screen = document.getElementById("phoneScreen");
+    var caption = document.getElementById("phoneCaption");
+    var rail = document.getElementById("rail");
+    var activeStep = 1;
+
+    function syncPhone(force) {
+      var ch = chapters[activeStep - 1];
+      if (!ch || !screen) return;
+      var chat = ch.querySelector(".chat");
+      var html = chat ? chat.innerHTML : "";
+      if (force || screen.dataset.step !== String(activeStep)) {
+        screen.dataset.step = String(activeStep);
+        screen.innerHTML = html;
+        var st = ch.querySelector(".stage span");
+        caption.textContent = (st ? st.textContent : "");
       }
+    }
 
+    function activate(step) {
+      if (step === activeStep && screen.dataset.step === String(step)) return;
+      activeStep = step;
+      chapters.forEach(function (c, i) { c.classList.toggle("active", i === step - 1); });
+      if (rail) rail.style.setProperty("--p", ((step - 0.5) / chapters.length * 100) + "%");
+      syncPhone(false);
+    }
+
+    if ("IntersectionObserver" in window && chapters.length) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) activate(Number(e.target.dataset.step));
+        });
+      }, { rootMargin: "-35% 0px -45% 0px", threshold: 0 });
+      chapters.forEach(function (c) { io.observe(c); });
+    }
+    chapters[0] && chapters[0].classList.add("active");
+    if (rail) rail.style.setProperty("--p", "8%");
+
+    /* ---- Reveal on scroll ---- */
+    var rvs = Array.from(document.querySelectorAll(".rv"));
+    if (reduce || !("IntersectionObserver" in window)) {
+      rvs.forEach(function (el) { el.classList.add("in"); });
+    } else {
+      var rio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); rio.unobserve(e.target); } });
+      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+      rvs.forEach(function (el) { rio.observe(el); });
+    }
+
+    /* ---- Hero: voice note -> typing -> reply -> ticket, on a loop ---- */
+    (function heroLoop() {
+      var chat = document.getElementById("heroChat");
+      var collage = document.getElementById("collage");
+      if (!chat) return;
+      if (reduce) { chat.dataset.state = "3"; collage.classList.add("show-ticket"); return; }
+      var seq = [[0, 1400], [1, 1500], [2, 900], [3, 5200]];
       var i = 0;
-      function tick() {
-        steps.forEach(function (s, idx) { s.classList.toggle("active", idx === i); });
-        i = (i + 1) % steps.length;
+      function step() {
+        var s = seq[i];
+        chat.dataset.state = String(s[0]);
+        collage.classList.toggle("show-ticket", s[0] === 3);
+        i = (i + 1) % seq.length;
+        setTimeout(step, s[1]);
       }
-      tick();
-      var timer = setInterval(tick, 1500);
-
-      // Pause on hover, resume on leave (use the section as the hover target).
-      var section = document.getElementById("how");
-      if (section) {
-        section.addEventListener("mouseenter", function () { clearInterval(timer); }, { passive: true });
-        section.addEventListener("mouseleave", function () { timer = setInterval(tick, 1500); }, { passive: true });
-      }
+      step();
     })();
-  </script>
 
+    setLang(detectLang());
+  </script>
 </body>
 </html>
